@@ -1,6 +1,6 @@
 package operador;
 
-public class Funcionario extends Pessoa {
+public abstract class Funcionario extends Pessoa {
 
 	public Funcionario() {
 	}
