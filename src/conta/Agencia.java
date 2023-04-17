@@ -1,11 +1,9 @@
 package conta;
 
 public class Agencia {
-	int digito;
 	int id;
 	
-	public Agencia(int digito, int id) {
-		this.digito = digito;
+	public Agencia(int id) {
 		this.id = id;
 	}
 	
