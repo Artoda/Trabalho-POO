@@ -1,25 +1,24 @@
 package conta;
 import operador.Cliente;
 
-public abstract class Conta {
+public abstract class Conta{
 	
 	int numero;
 	double saldo;
+	Agencia agencia = new Agencia();
 	//Tipo Enum
-	int agencia;
 	Cliente cliente = new Cliente();
 	
-	 public Conta(int numero, double saldo, Cliente cliente) {
+	public Conta(int numero, double saldo, Agencia agencia, Cliente cliente) {
 		this.numero = numero;
 		this.saldo = saldo;
+		this.agencia = agencia;
 		this.cliente = cliente;
-	} 
-	 
-	 public Conta() {
-	 }
-	
-	 
+	}
 
+	public Conta() {
+	}
+	
 }
 
 	
