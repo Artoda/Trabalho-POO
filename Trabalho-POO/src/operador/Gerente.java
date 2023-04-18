@@ -3,16 +3,14 @@ package operador;
 import conta.Agencia;
 
 public class Gerente extends Funcionario {
-	CargosEnum gerente = CargosEnum.GERENTE;
-	private final String tipo = gerente.name();
-	private final int digito = gerente.ordinal();
+	CargosEnum tipo = CargosEnum.GERENTE;
 	Agencia agencia = new Agencia();
 
 	public Gerente() {
 	}
 
-	public Gerente(String nome, String cpf, int senha, CargosEnum tipo, Agencia agencia) {
-		super(nome, cpf, senha, tipo);
+	public Gerente(String nome, String cpf, int senha, Agencia agencia) {
+		super(nome, cpf, senha);
 		this.agencia = agencia;
 	}
 

@@ -3,14 +3,12 @@ package operador;
 import conta.Agencia;
 
 public class Presidente extends Diretor {
-	CargosEnum presidente = CargosEnum.PRESIDENTE;
-	private final String tipo = presidente.name();
-	private final int digito = presidente.ordinal();
+	CargosEnum tipo = CargosEnum.PRESIDENTE;
 
 	public Presidente() {
 	}
 
-	public Presidente(String nome, String cpf, int senha, CargosEnum tipo, Agencia agencia) {
-		super(nome, cpf, senha, tipo, agencia);
+	public Presidente(String nome, String cpf, int senha) {
+		super(nome, cpf, senha);
 	}
 }

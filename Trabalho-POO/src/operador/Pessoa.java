@@ -11,12 +11,11 @@ public abstract class Pessoa {
 		
 	}
 	
-	public Pessoa(String nome, String cpf, int senha, CargosEnum tipo) {
+	public Pessoa(String nome, String cpf, int senha) {
 		super();
 		this.nome = nome;
 		this.cpf = cpf;
 		this.senha = senha;
-		this.tipo = tipo;
 	}
 
 	public String getNome() {

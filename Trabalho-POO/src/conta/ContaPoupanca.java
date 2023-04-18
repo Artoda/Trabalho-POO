@@ -8,19 +8,15 @@ public class ContaPoupanca extends Conta {
 
 	Scanner sc = new Scanner(System.in);
 
-	ContasEnum poupanca = ContasEnum.POUPANCA;
-	private String tipo = poupanca.name();
-	private int digito = poupanca.ordinal();
+	ContasEnum tipo = ContasEnum.POUPANCA;
 	public static double rendimento = 0.005;
 
 	public ContaPoupanca() {
 		super();
-
 	}
 
-	public ContaPoupanca(int numero, double saldo, Agencia agencia, Cliente cliente) {
-		super(numero, saldo, agencia, cliente);
-
+	public ContaPoupanca(int numero, double saldo, Cliente cliente) {
+		super(numero, saldo, cliente);
 	}
 
 	private void Saque() {
@@ -33,36 +29,36 @@ public class ContaPoupanca extends Conta {
 				System.out.println("Saldo insuficiente.");
 			}
 		} catch (Exception e) {
-			System.out.println("Valor informado inválido.");
+			System.out.println("Valor informado invï¿½lido.");
 		}
 	}
 
 	private void Deposito() {
 		try {
-			System.out.println("Valor desejado do depósito: ");
+			System.out.println("Valor desejado do depï¿½sito: ");
 			double valor = sc.nextDouble();
 			if (valor >= 0) {
 				this.setSaldo(this.getSaldo() + valor);
 			} else {
-				System.out.println("Valor inválido para depósito.");
+				System.out.println("Valor invï¿½lido para depï¿½sito.");
 			}
 		} catch (Exception e) {
-			System.out.println("Valor informado inválido.");
+			System.out.println("Valor informado invï¿½lido.");
 		}
 	}
 
 	private void Transferir(Conta conta) {
 		try {
-			System.out.println("Valor da tranferência: ");
+			System.out.println("Valor da tranferï¿½ncia: ");
 			double valor = sc.nextDouble();
 			if (valor <= this.getSaldo() && valor >= 0) {
 				conta.setSaldo(conta.getSaldo() + valor);
 				this.setSaldo(this.getSaldo() - valor);
 			} else {
-				System.out.println("Valor inválido");
+				System.out.println("Valor invï¿½lido");
 			}
 		} catch (Exception e) {
-			System.out.println("Dados ou valores inválidos.");
+			System.out.println("Dados ou valores invï¿½lidos.");
 		}
 	}
 

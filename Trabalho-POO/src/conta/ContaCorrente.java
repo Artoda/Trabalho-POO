@@ -7,9 +7,7 @@ public class ContaCorrente extends Conta {
 
 	Scanner sc = new Scanner(System.in);
 
-	ContasEnum corrente = ContasEnum.CORRENTE;
-	private String tipo = corrente.name();
-	private int digito = corrente.ordinal();
+	ContasEnum tipo = ContasEnum.CORRENTE;
 	public static double taxaSaqDep = 0.10;
 	public static double taxaTransf = 0.20;
 
@@ -18,8 +16,8 @@ public class ContaCorrente extends Conta {
 
 	}
 
-	public ContaCorrente(int numero, double saldo, Agencia agencia, Cliente cliente) {
-		super(numero, saldo, agencia, cliente);
+	public ContaCorrente(int numero, double saldo, Cliente cliente) {
+		super(numero, saldo, cliente);
 
 	}
 
@@ -33,36 +31,36 @@ public class ContaCorrente extends Conta {
 				System.out.println("Saldo insuficiente.");
 			}
 		} catch (Exception e) {
-			System.out.println("Valor informado inválido.");
+			System.out.println("Valor informado invï¿½lido.");
 		}
 	}
 
 	public void Deposito() {
 		try {
-			System.out.println("Valor desejado do depósito: ");
+			System.out.println("Valor desejado do depï¿½sito: ");
 			double valor = sc.nextDouble();
 			if (valor >= 0) {
 				this.setSaldo(this.getSaldo() + valor - taxaSaqDep);
 			} else {
-				System.out.println("Valor inválido para depósito.");
+				System.out.println("Valor invï¿½lido para depï¿½sito.");
 			}
 		} catch (Exception e) {
-			System.out.println("Valor informado inválido.");
+			System.out.println("Valor informado invï¿½lido.");
 		}
 	}
 
 	public void Transferir(Conta conta) {
 		try {
-			System.out.println("Valor da tranferência: ");
+			System.out.println("Valor da tranferï¿½ncia: ");
 			double valor = sc.nextDouble();
 			if (valor <= this.getSaldo() - taxaTransf && valor >= 0) {
 				conta.setSaldo(conta.getSaldo() + valor);
 				this.setSaldo(this.getSaldo() - valor);
 			} else {
-				System.out.println("Valor inválido");
+				System.out.println("Valor invï¿½lido");
 			}
 		} catch (Exception e) {
-			System.out.println("Dados ou valores inválidos.");
+			System.out.println("Dados ou valores invï¿½lidos.");
 		}
 	}
 

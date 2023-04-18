@@ -1,7 +1,9 @@
 package sistemaBancario;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
+import conta.ContasEnum;
 import operador.Diretor;
 import operador.Gerente;
 import operador.Presidente;
@@ -9,9 +11,9 @@ import operador.Presidente;
 public class SistemaBancario {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Bem-vindo ao sistema bancário!");
+        System.out.println("Bem-vindo ao sistema bancï¿½rio!");
 
-        //  ler arquivo de texto com dados dos clientes, contas e funcionários
+        //  ler arquivo de texto com dados dos clientes, contas e funcionï¿½rios
 
         boolean sair = false;
         while (!sair) {
@@ -19,52 +21,52 @@ public class SistemaBancario {
             String cpf = scanner.nextLine();
             System.out.println("Digite sua senha: ");
             String senha = scanner.nextLine();
-
-            // Verifica se é um Cliente
-            // implementar a lógica de verificação de Cliente
-            // Verifica se é um Gerente
+            //public HashMap<String, ContasEnum> listaCliente = new HashMap<String, ContasEnum>();
+            // Verifica se ï¿½ um Cliente
+            // implementar a lï¿½gica de verificaï¿½ï¿½o de Cliente
+            // Verifica se ï¿½ um Gerente
             
             Gerente gerente = verificarGerente(cpf, senha);
             if (gerente != null) {
-                System.out.println("Bem-vindo, gerente da agência " + gerente.agencia);
-                // implementar as operações disponíveis para o Gerente
+                System.out.println("Bem-vindo, gerente da agï¿½ncia " + gerente.agencia);
+                // implementar as operaï¿½ï¿½es disponï¿½veis para o Gerente
                 continue;
             }
 
-            // Verifica se é um Diretor
+            // Verifica se ï¿½ um Diretor
             Diretor diretor = verificarDiretor(cpf, senha);
             if (diretor != null) {
                 System.out.println("Bem-vindo, diretor!");
-                // implementar as operações disponíveis para o Diretor
+                // implementar as operaï¿½ï¿½es disponï¿½veis para o Diretor
                 continue;
             }
 
-            // Verifica se é um Presidente
+            // Verifica se ï¿½ um Presidente
             Presidente presidente = verificarPresidente(cpf, senha);
             if (presidente != null) {
                 System.out.println("Bem-vindo, presidente!");
-                // TODO: implementar as operações disponíveis para o Presidente
+                // TODO: implementar as operaï¿½ï¿½es disponï¿½veis para o Presidente
                 continue;
             }
 
-            System.out.println("CPF e/ou senha inválidos.");
+            System.out.println("CPF e/ou senha invï¿½lidos.");
         }
 
-        // escrever arquivo de texto com dados atualizados dos clientes, contas e funcionários
+        // escrever arquivo de texto com dados atualizados dos clientes, contas e funcionï¿½rios
     }
 
     private static Gerente verificarGerente(String cpf, String senha) {
-        // implementar a lógica de verificação de Gerente
+        // implementar a lï¿½gica de verificaï¿½ï¿½o de Gerente
         return null;
     }
 
     private static Diretor verificarDiretor(String cpf, String senha) {
-        // implementar a lógica de verificação de Diretor
+        // implementar a lï¿½gica de verificaï¿½ï¿½o de Diretor
         return null;
     }
 
     private static Presidente verificarPresidente(String cpf, String senha) {
-        // implementar a lógica de verificação de Presidente
+        // implementar a lï¿½gica de verificaï¿½ï¿½o de Presidente
         return null;
     }
 }
