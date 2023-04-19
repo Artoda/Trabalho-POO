@@ -3,7 +3,7 @@ package conta;
 import operador.Cliente;
 import java.util.Scanner;
 
-public class ContaCorrente extends Conta {
+public class ContaCorrente extends Conta implements Comparable {
 
 	Scanner sc = new Scanner(System.in);
 
@@ -21,10 +21,8 @@ public class ContaCorrente extends Conta {
 
 	}
 
-	public void Saque() {
+	public void Saque(double valor) {
 		try {
-			System.out.println("Valor desejado do saque: ");
-			double valor = sc.nextDouble();
 			if (valor <= this.getSaldo() - taxaSaqDep && valor >= 0) {
 				this.setSaldo(this.getSaldo() - valor - taxaSaqDep);
 			} else {
@@ -33,12 +31,11 @@ public class ContaCorrente extends Conta {
 		} catch (Exception e) {
 			System.out.println("Valor informado inv�lido.");
 		}
+		
 	}
 
-	public void Deposito() {
+	public void Deposito(double valor) {
 		try {
-			System.out.println("Valor desejado do dep�sito: ");
-			double valor = sc.nextDouble();
 			if (valor >= 0) {
 				this.setSaldo(this.getSaldo() + valor - taxaSaqDep);
 			} else {
@@ -48,11 +45,9 @@ public class ContaCorrente extends Conta {
 			System.out.println("Valor informado inv�lido.");
 		}
 	}
-
-	public void Transferir(Conta conta) {
+	
+	public void Transferir(Conta conta, double valor) {
 		try {
-			System.out.println("Valor da tranfer�ncia: ");
-			double valor = sc.nextDouble();
 			if (valor <= this.getSaldo() - taxaTransf && valor >= 0) {
 				conta.setSaldo(conta.getSaldo() + valor);
 				this.setSaldo(this.getSaldo() - valor);
@@ -63,9 +58,27 @@ public class ContaCorrente extends Conta {
 			System.out.println("Dados ou valores inv�lidos.");
 		}
 	}
+	
+	@Override
+	public ContasEnum getTipoConta() {
+		return tipo;
+	}
 
 	@Override
-	public String getTipoConta() {
-		return null;
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
+	
+	@Override
+	public String toString() {
+		return "Conta [numero=" + this.getNumero() + ", saldo=" + this.getSaldo() + "]";
+	}
+
+	
+
+
+	
+	
+	
 }
