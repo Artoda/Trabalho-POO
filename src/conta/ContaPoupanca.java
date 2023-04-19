@@ -19,10 +19,8 @@ public class ContaPoupanca extends Conta {
 		super(numero, saldo, cliente);
 	}
 
-	private void Saque() {
+	public void Saque(double valor) {
 		try {
-			System.out.println("Valor desejado do saque: ");
-			double valor = sc.nextDouble();
 			if (valor <= this.getSaldo() && valor >= 0) {
 				this.setSaldo(this.getSaldo() - valor);
 			} else {
@@ -33,10 +31,8 @@ public class ContaPoupanca extends Conta {
 		}
 	}
 
-	private void Deposito() {
+	public void Deposito(double valor) {
 		try {
-			System.out.println("Valor desejado do dep�sito: ");
-			double valor = sc.nextDouble();
 			if (valor >= 0) {
 				this.setSaldo(this.getSaldo() + valor);
 			} else {
@@ -47,10 +43,8 @@ public class ContaPoupanca extends Conta {
 		}
 	}
 
-	private void Transferir(Conta conta) {
+	public void Transferir(Conta conta, double valor) {
 		try {
-			System.out.println("Valor da tranfer�ncia: ");
-			double valor = sc.nextDouble();
 			if (valor <= this.getSaldo() && valor >= 0) {
 				conta.setSaldo(conta.getSaldo() + valor);
 				this.setSaldo(this.getSaldo() - valor);
@@ -63,8 +57,15 @@ public class ContaPoupanca extends Conta {
 	}
 
 	@Override
-	public String getTipoConta() {
-		return null;
+	public ContasEnum getTipoConta() {
+		return tipo;
 	}
+	
+	@Override
+	public String toString() {
+		return "Conta [numero=" + this.getNumero() + ", saldo=" + this.getSaldo() + "]";
+	}
+
+	
 
 }

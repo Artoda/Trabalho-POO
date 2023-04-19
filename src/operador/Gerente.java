@@ -14,4 +14,13 @@ public class Gerente extends Funcionario {
 		this.agencia = agencia;
 	}
 
+	public Agencia getAgencia() {
+		return agencia;
+	}
+	public CargosEnum getTipo() {
+		return tipo;
+	}
+	
+	
+
 }
