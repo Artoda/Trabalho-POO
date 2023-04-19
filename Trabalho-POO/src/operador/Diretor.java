@@ -14,4 +14,7 @@ public class Diretor extends Gerente {
 		this.cpf = cpf;
 		this.senha = senha;
 	}
+    public CargosEnum getTipo() {
+		return tipo;
+	}
 }

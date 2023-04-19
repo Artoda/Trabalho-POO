@@ -1,11 +1,12 @@
 package conta;
+
 import operador.Cliente;
 
 public abstract class Conta {
 	private int numero;
 	private double saldo;
 	private Cliente cliente = new Cliente();
-	
+
 	public Conta(int numero, double saldo, Cliente cliente) {
 		this.numero = numero;
 		this.saldo = saldo;
@@ -15,7 +16,7 @@ public abstract class Conta {
 	public Conta() {
 	}
 
-    public abstract ContasEnum getTipoConta();
+	public abstract ContasEnum getTipoConta();
 
 	public double getSaldo() {
 		return saldo;
@@ -36,19 +37,16 @@ public abstract class Conta {
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
-	
+
 	public abstract void Saque(double valor);
+
 	public abstract void Deposito(double valor);
+
 	public abstract void Transferir(Conta conta, double valor);
 
 	@Override
 	public String toString() {
 		return "Conta [numero=" + numero + ", saldo=" + saldo + ", cliente=" + cliente + "]";
 	}
-	
-	
-	
-	
-    
-    
+
 }

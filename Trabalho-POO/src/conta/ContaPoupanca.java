@@ -27,7 +27,7 @@ public class ContaPoupanca extends Conta {
 				System.out.println("Saldo insuficiente.");
 			}
 		} catch (Exception e) {
-			System.out.println("Valor informado invï¿½lido.");
+			System.out.println("Valor informado inválido.");
 		}
 	}
 
@@ -36,10 +36,10 @@ public class ContaPoupanca extends Conta {
 			if (valor >= 0) {
 				this.setSaldo(this.getSaldo() + valor);
 			} else {
-				System.out.println("Valor invï¿½lido para depï¿½sito.");
+				System.out.println("Valor inválido para depósito.");
 			}
 		} catch (Exception e) {
-			System.out.println("Valor informado invï¿½lido.");
+			System.out.println("Valor informado inválido.");
 		}
 	}
 
@@ -49,10 +49,10 @@ public class ContaPoupanca extends Conta {
 				conta.setSaldo(conta.getSaldo() + valor);
 				this.setSaldo(this.getSaldo() - valor);
 			} else {
-				System.out.println("Valor invï¿½lido");
+				System.out.println("Valor inválido");
 			}
 		} catch (Exception e) {
-			System.out.println("Dados ou valores invï¿½lidos.");
+			System.out.println("Dados ou valores inválidos.");
 		}
 	}
 
@@ -60,12 +60,10 @@ public class ContaPoupanca extends Conta {
 	public ContasEnum getTipoConta() {
 		return tipo;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Conta [numero=" + this.getNumero() + ", saldo=" + this.getSaldo() + "]";
 	}
-
-	
 
 }

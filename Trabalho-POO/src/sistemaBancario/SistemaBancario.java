@@ -1,5 +1,6 @@
 package sistemaBancario;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,25 +21,28 @@ import conta.ContaPoupanca;
 
 public class SistemaBancario {
 
-	static Cliente cliente1 = new Cliente("Romulo", "123.456.789-00", 1234);
-	static Cliente cliente2 = new Cliente("João", "123.456.789-01", 1235);
-	static Agencia agencia = new Agencia(1234);
-	Funcionario gerente = new Gerente("Victor", "123.456.789-02", 1234, agencia);
-	Funcionario diretor = new Diretor("Matheus", "123.456.789-03", 1234);
-	Funcionario presidente = new Presidente("Yan", "123.456.789-04", 1234);
-	static Conta corrente = new ContaCorrente(1234, 1000, cliente1);
-	static Conta poupanca = new ContaPoupanca(1235, 1000, cliente2);
 	static List<Agencia> listaAgencias = new ArrayList<Agencia>();
+	static List<Cliente> ListaClientes = new ArrayList<>();
+	static List<Gerente> listaGerentes = new ArrayList<>();
+	static List<Diretor> listaDiretores = new ArrayList<>();
+	static List<Presidente> listaPresidentes = new ArrayList<>();
+	static List<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
 	static Scanner read = new Scanner(System.in);
 
 	public static void main(String[] args) {
 
-		listaAgencias.add(agencia);
-		agencia.adicionarConta(corrente);
-		agencia.adicionarConta(poupanca);
+		ListaClientes.add(new Cliente("Romulo", "123.456.789-00", 1234));
+		ListaClientes.add(new Cliente("João", "123.456.789-01", 1235));
+		listaAgencias.add(new Agencia(1234));
+		listaGerentes.add(new Gerente("Victor", "123.456.789-02", 1234, listaAgencias.get(0)));
+		listaDiretores.add(new Diretor("Matheus", "123.456.789-03", 1234));
+		listaPresidentes.add(new Presidente("Yan", "123.456.789-04", 1234));
+		listaFuncionarios.add(listaGerentes.get(0));
+		listaFuncionarios.add(listaDiretores.get(0));
+		listaFuncionarios.add(listaPresidentes.get(0));
 
-		String cpf;
-		int senha;
+		listaAgencias.get(0).adicionarConta(new ContaCorrente(1234, 1000, ListaClientes.get(0)));
+		listaAgencias.get(0).adicionarConta(new ContaPoupanca(1235, 1000, ListaClientes.get(1)));
 
 		menu();
 
@@ -62,7 +66,7 @@ public class SistemaBancario {
 				menuCliente();
 				break;
 			case 2:
-				// menuFuncionario();
+				menuFuncionario();
 				System.out.println("Funcionário");
 				break;
 			case 3:
@@ -77,6 +81,97 @@ public class SistemaBancario {
 	}
 
 	public static void menuFuncionario() {
+		int agencia;
+		String cpf;
+		int senha;
+		int posicao = -5;
+		System.out.println("-------------------------   Menu funcionário:  -----------------------------\n");
+		System.out.println("CPF: ");
+		cpf = read.next();
+
+		for (int i = 0; i < listaFuncionarios.size(); i++) {
+			if (listaFuncionarios.get(i).getCpf().equals(cpf)) {
+				posicao = i;
+				break;
+			}
+		}
+		if (posicao == -5) {
+			System.out.println("CPF inválido!");
+		} else {
+			if (listaFuncionarios.get(posicao).getTipo().name().equals("GERENTE")) {
+				menuGerente(cpf);
+			} else if (listaFuncionarios.get(posicao).getTipo().name().equals("DIRETOR")) {
+				menuDiretor(cpf);
+			} else {
+				menuPresidente(cpf);
+			}
+		}
+
+	}
+
+	public static void menuGerente(String cpf) {
+		int escolha = 0;
+
+		while (escolha != 3) {
+			System.out.println("-------------------------   Menu gerente:  -----------------------------\n");
+			System.out.println("1 - Acesso a conta de cliente");
+			System.out.println("2 - Relatórios");
+			System.out.println("3 - Sair");
+			System.out.print("Opção: ");
+			escolha = read.nextInt();
+			switch (escolha) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			}
+		}
+
+	}
+
+	public static void menuDiretor(String cpf) {
+		int escolha = 0;
+
+		while (escolha != 3) {
+			System.out.println("-------------------------   Menu Diretor:  -----------------------------\n");
+			System.out.println("1 - Acesso a conta de cliente");
+			System.out.println("2 - Relatórios");
+			System.out.println("3 - Sair");
+			System.out.print("Opção: ");
+			escolha = read.nextInt();
+			switch (escolha) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			}
+		}
+
+	}
+
+	public static void menuPresidente(String cpf) {
+		int escolha = 0;
+
+		while (escolha != 3) {
+			System.out.println("-------------------------   Menu Presidente:  -----------------------------\n");
+			System.out.println("1 - Acesso a conta de cliente");
+			System.out.println("2 - Relatórios");
+			System.out.println("3 - Sair");
+			System.out.print("Opção: ");
+			escolha = read.nextInt();
+			switch (escolha) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			}
+		}
 
 	}
 
@@ -93,6 +188,8 @@ public class SistemaBancario {
 		double valor = 0;
 		double soma = 0;
 		int escolha = 0;
+		int tempo = 0;
+		double deposito = 0;
 
 		System.out.print("Agência: ");
 		agencia = read.nextInt();
@@ -103,7 +200,7 @@ public class SistemaBancario {
 			}
 		}
 		if (posicao1 == -5) {
-			System.out.print("Agência nÃ£o encontrada!\n");
+			System.out.print("Agência não encontrada!\n");
 		} else {
 			System.out.print("Conta: ");
 			conta = read.nextInt();
@@ -126,13 +223,14 @@ public class SistemaBancario {
 		}
 
 		if (posicao1 != -5 && posicao2 != -5) {
-			while (escolha != 5) {
+			while (escolha != 6) {
 				System.out.println("Operação desejada \n");
 				System.out.println("1 - Saque\n");
 				System.out.println("2 - Deposito\n");
 				System.out.println("3 - Tranferência\n");
 				System.out.println("4 - Extrato\n");
-				System.out.println("5 - Encerrar\n");
+				System.out.println("5 - Simulação poupança\n");
+				System.out.println("6 - Encerrar\n");
 				System.out.print("Opção: ");
 				escolha = read.nextInt();
 
@@ -145,7 +243,6 @@ public class SistemaBancario {
 					System.out.println("Qual o valor desejado para o saque: ");
 					valor = read.nextDouble();
 					listaAgencias.get(posicao1).getListaContas().get(posicao2).Saque(valor);
-					// relatorio();
 					break;
 				case 2:
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
@@ -155,7 +252,6 @@ public class SistemaBancario {
 					System.out.println("Qual o valor desejado para o depósito: ");
 					valor = read.nextDouble();
 					listaAgencias.get(posicao1).getListaContas().get(posicao2).Deposito(valor);
-					// relatorio();
 					break;
 				case 3:
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
@@ -197,12 +293,25 @@ public class SistemaBancario {
 							System.out.println("Conta ou senha inválida!");
 						}
 					}
-					// relatorio();
 					break;
 				case 4:
 					System.out.println(listaAgencias.get(posicao1).getListaContas().get(posicao2).toString());
 					break;
 				case 5:
+					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
+							.equals("CORRENTE")) {
+						System.out.println("Simulação disponível apenas para contas poupança.");
+					} else {
+						System.out.println("Valor simulado: ");
+						deposito = read.nextDouble();
+						System.out.println("Tempo de simulação (meses): ");
+						tempo = read.nextInt();
+						System.out.println("O montante final é de: R$"
+								+ Math.round(deposito * Math.pow(1.005, tempo) * 100.0) / 100.0);
+					}
+
+					break;
+				case 6:
 					break;
 				default:
 					System.out.println("Opção inválida");
