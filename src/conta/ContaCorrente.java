@@ -29,7 +29,7 @@ public class ContaCorrente extends Conta implements Comparable {
 				System.out.println("Saldo insuficiente.");
 			}
 		} catch (Exception e) {
-			System.out.println("Valor informado inválido.");
+			System.out.println("Valor informado invï¿½lido.");
 		}
 
 	}
@@ -39,10 +39,10 @@ public class ContaCorrente extends Conta implements Comparable {
 			if (valor >= 0) {
 				this.setSaldo(this.getSaldo() + valor - taxaSaqDep);
 			} else {
-				System.out.println("Valor inválido para depósito.");
+				System.out.println("Valor invï¿½lido para depï¿½sito.");
 			}
 		} catch (Exception e) {
-			System.out.println("Valor informado inválido.");
+			System.out.println("Valor informado invï¿½lido.");
 		}
 	}
 
@@ -50,12 +50,12 @@ public class ContaCorrente extends Conta implements Comparable {
 		try {
 			if (valor <= this.getSaldo() - taxaTransf && valor >= 0) {
 				conta.setSaldo(conta.getSaldo() + valor);
-				this.setSaldo(this.getSaldo() - valor);
+				this.setSaldo(this.getSaldo() - valor - taxaTransf);
 			} else {
-				System.out.println("Valor inválido");
+				System.out.println("Valor invï¿½lido");
 			}
 		} catch (Exception e) {
-			System.out.println("Dados ou valores inválidos.");
+			System.out.println("Dados ou valores invï¿½lidos.");
 		}
 	}
 
