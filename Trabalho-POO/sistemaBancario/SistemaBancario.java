@@ -40,7 +40,7 @@ public class SistemaBancario {
 
 		while (true) {
 			linha = arquivo.readLine();
-			String[] arrayStrings;
+			String[] arrayStrings; 
 			if (linha != null) {
 				arrayStrings = linha.split(";");
 				nome = arrayStrings[0];
