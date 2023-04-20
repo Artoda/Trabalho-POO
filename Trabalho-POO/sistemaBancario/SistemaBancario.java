@@ -3,6 +3,8 @@ package sistemaBancario;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -26,98 +28,20 @@ public class SistemaBancario {
 	static List<Funcionario> listaFuncionarios = new ArrayList<Funcionario>();
 	static Scanner read = new Scanner(System.in);
 
-	public static void LerArquivo() throws IOException {
-		BufferedReader arquivo = new BufferedReader(new FileReader("C:\\Users\\romul\\Documents\\arquivo.txt"));
-		BufferedReader arquivoJoao = new BufferedReader(new FileReader("C:\\Users\\romul\\Documents\\arquivoJoao.txt"));
-		BufferedReader arquivoVictor = new BufferedReader(
-				new FileReader("C:\\Users\\romul\\Documents\\arquivoVictor.txt"));
-		BufferedReader arquivoMatheus = new BufferedReader(
-				new FileReader("C:\\Users\\romul\\Documents\\arquivoMatheus.txt"));
-		BufferedReader arquivoYan = new BufferedReader(new FileReader("C:\\Users\\romul\\Documents\\arquivoYan.txt"));
-		String linha;
-		String nome, cpf;
-		int senha;
-
-		while (true) {
-			linha = arquivo.readLine();
-			String[] arrayStrings; 
-			if (linha != null) {
-				arrayStrings = linha.split(";");
-				nome = arrayStrings[0];
-				cpf = (arrayStrings[1]);
-				senha = Integer.parseInt(arrayStrings[2]);
-				ListaClientes.add(new Cliente(nome, cpf, senha));
-			} else
-				break;
-		}
-		while (true) {
-			linha = arquivoJoao.readLine();
-			String[] arrayStrings;
-			if (linha != null) {
-				arrayStrings = linha.split(";");
-				nome = arrayStrings[0];
-				cpf = (arrayStrings[1]);
-				senha = Integer.parseInt(arrayStrings[2]);
-				ListaClientes.add(new Cliente(nome, cpf, senha));
-			} else
-				break;
-		}
-		while (true) {
-			linha = arquivoVictor.readLine();
-			String[] arrayStrings;
-			if (linha != null) {
-				arrayStrings = linha.split(";");
-				nome = arrayStrings[0];
-				cpf = (arrayStrings[1]);
-				senha = Integer.parseInt(arrayStrings[2]);
-				listaGerentes.add(new Gerente(nome, cpf, senha, listaAgencias.get(0)));
-			} else
-				break;
-		}
-		while (true) {
-			linha = arquivoMatheus.readLine();
-			String[] arrayStrings;
-			if (linha != null) {
-				arrayStrings = linha.split(";");
-				nome = arrayStrings[0];
-				cpf = (arrayStrings[1]);
-				senha = Integer.parseInt(arrayStrings[2]);
-				listaDiretores.add(new Diretor(nome, cpf, senha));
-			} else
-				break;
-		}
-		while (true) {
-			linha = arquivoYan.readLine();
-			String[] arrayStrings;
-			if (linha != null) {
-				arrayStrings = linha.split(";");
-				nome = arrayStrings[0];
-				cpf = (arrayStrings[1]);
-				senha = Integer.parseInt(arrayStrings[2]);
-				listaPresidentes.add(new Presidente(nome, cpf, senha));
-			} else
-				break;
-		}
-
-
-	}
-
 	public static void main(String[] args) {
 
-		listaAgencias.add(new Agencia(1234));
+		LocalDateTime agora = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
+		String agoraFormatado = agora.format(formatter);
 
-		try {
-			LerArquivo();
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		listaFuncionarios.add(listaGerentes.get(0));
-		listaFuncionarios.add(listaDiretores.get(0));
-		listaFuncionarios.add(listaPresidentes.get(0));
+		LocalDateTime agora1 = LocalDateTime.now();
+		DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		formatter1 = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
+		String agoraFormatado1 = agora1.format(formatter1);
+		// System.out.println("LocalDateTime depois de formatar: " + agoraFormatado);
 
-		listaAgencias.get(0).adicionarConta(new ContaCorrente(1234, 1000, ListaClientes.get(0)));
-		listaAgencias.get(0).adicionarConta(new ContaPoupanca(1235, 1000, ListaClientes.get(1)));
+		inputDados();
 
 		menu();
 
@@ -199,7 +123,7 @@ public class SistemaBancario {
 		while (escolha != 3) {
 			System.out.println("-------------------------   Menu gerente:  -----------------------------\n");
 			System.out.println("1 - Acesso a conta de cliente");
-			System.out.println("2 - Relatórios");
+			System.out.println("2 - Relatório");
 			System.out.println("3 - Sair");
 			System.out.print("Opção: ");
 			escolha = read.nextInt();
@@ -208,9 +132,9 @@ public class SistemaBancario {
 				menuCliente();
 				break;
 			case 2:
-				System.out.println("A agencia" + listaAgencias.get(0) + "possui essas coontas:\n");
-				System.out.println(ListaClientes.get(0).toString());
-				System.out.println(ListaClientes.get(1).toString());
+				System.out
+						.println("A agencia " + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + " possuí "
+								+ listaFuncionarios.get(posicao).getAgencia().getListaContas().size() + " contas:\n");
 				break;
 			case 3:
 				break;
@@ -225,7 +149,7 @@ public class SistemaBancario {
 		while (escolha != 3) {
 			System.out.println("-------------------------   Menu Diretor:  -----------------------------\n");
 			System.out.println("1 - Acesso a conta de cliente");
-			System.out.println("2 - Relatórios");
+			System.out.println("2 - Relatório");
 			System.out.println("3 - Sair");
 			System.out.print("Opção:  ");
 			escolha = read.nextInt();
@@ -249,7 +173,7 @@ public class SistemaBancario {
 		while (escolha != 3) {
 			System.out.println("-------------------------   Menu Presidente:  -----------------------------\n");
 			System.out.println("1 - Acesso a conta de cliente");
-			System.out.println("2 - Relatórios");
+			System.out.println("2 - Relatório");
 			System.out.println("3 - Sair");
 			System.out.print("Opção: ");
 			escolha = read.nextInt();
@@ -318,6 +242,7 @@ public class SistemaBancario {
 						+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getCliente().getNome());
 				while (escolha != 6) {
 					System.out.println("Operação desejada \n");
+					System.out.println("0 - Saldo\n");
 					System.out.println("1 - Saque\n");
 					System.out.println("2 - Deposito\n");
 					System.out.println("3 - Tranferência\n");
@@ -328,6 +253,10 @@ public class SistemaBancario {
 					escolha = read.nextInt();
 
 					switch (escolha) {
+					case 0:
+						System.out.println("Seu saldo é de: R$"
+								+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
+						break;
 					case 1:
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
@@ -411,4 +340,145 @@ public class SistemaBancario {
 		}
 	}
 
+	public static void LerArquivo() throws IOException {
+		BufferedReader arquivoRomulo = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoRomuloCC.txt"));
+		BufferedReader arquivoJoao = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoJoaoCP.txt"));
+		BufferedReader arquivoRonaldo = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoRonaldoCC.txt"));
+		BufferedReader arquivoGabriel = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoGabrielCP.txt"));
+		BufferedReader arquivoVictor = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoVictor.txt"));
+		BufferedReader arquivoMarcelo = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoMarcelo.txt"));
+		BufferedReader arquivoMatheus = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoMatheus.txt"));
+		BufferedReader arquivoYan = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoYan.txt"));
+		String linha;
+		String nome, cpf;
+		int senha;
+
+		while (true) {
+			linha = arquivoRomulo.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				nome = arrayStrings[0];
+				cpf = (arrayStrings[1]);
+				senha = Integer.parseInt(arrayStrings[2]);
+				ListaClientes.add(new Cliente(nome, cpf, senha));
+			} else
+				break;
+		}
+		while (true) {
+			linha = arquivoJoao.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				nome = arrayStrings[0];
+				cpf = (arrayStrings[1]);
+				senha = Integer.parseInt(arrayStrings[2]);
+				ListaClientes.add(new Cliente(nome, cpf, senha));
+			} else
+				break;
+		}
+		while (true) {
+			linha = arquivoRonaldo.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				nome = arrayStrings[0];
+				cpf = (arrayStrings[1]);
+				senha = Integer.parseInt(arrayStrings[2]);
+				ListaClientes.add(new Cliente(nome, cpf, senha));
+			} else
+				break;
+		}
+		while (true) {
+			linha = arquivoGabriel.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				nome = arrayStrings[0];
+				cpf = (arrayStrings[1]);
+				senha = Integer.parseInt(arrayStrings[2]);
+				ListaClientes.add(new Cliente(nome, cpf, senha));
+			} else
+				break;
+		}
+		while (true) {
+			linha = arquivoVictor.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				nome = arrayStrings[0];
+				cpf = (arrayStrings[1]);
+				senha = Integer.parseInt(arrayStrings[2]);
+				listaGerentes.add(new Gerente(nome, cpf, senha, listaAgencias.get(0)));
+			} else
+				break;
+		}
+		while (true) {
+			linha = arquivoMarcelo.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				nome = arrayStrings[0];
+				cpf = (arrayStrings[1]);
+				senha = Integer.parseInt(arrayStrings[2]);
+				listaGerentes.add(new Gerente(nome, cpf, senha, listaAgencias.get(1)));
+			} else
+				break;
+		}
+		while (true) {
+			linha = arquivoMatheus.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				nome = arrayStrings[0];
+				cpf = (arrayStrings[1]);
+				senha = Integer.parseInt(arrayStrings[2]);
+				listaDiretores.add(new Diretor(nome, cpf, senha));
+			} else
+				break;
+		}
+		while (true) {
+			linha = arquivoYan.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				nome = arrayStrings[0];
+				cpf = (arrayStrings[1]);
+				senha = Integer.parseInt(arrayStrings[2]);
+				listaPresidentes.add(new Presidente(nome, cpf, senha));
+			} else
+				break;
+		}
+
+	}
+
+	public static void inputDados() {
+
+		listaAgencias.add(new Agencia(1234));
+		listaAgencias.add(new Agencia(4321));
+
+		try {
+			LerArquivo();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+
+		listaFuncionarios.add(listaGerentes.get(0));
+		listaFuncionarios.add(listaGerentes.get(1));
+		listaFuncionarios.add(listaDiretores.get(0));
+		listaFuncionarios.add(listaPresidentes.get(0));
+
+		listaAgencias.get(0).adicionarConta(new ContaCorrente(1234, 2000, ListaClientes.get(0)));
+		listaAgencias.get(0).adicionarConta(new ContaPoupanca(1235, 10000, ListaClientes.get(1)));
+		listaAgencias.get(1).adicionarConta(new ContaCorrente(4321, 500, ListaClientes.get(2)));
+		listaAgencias.get(1).adicionarConta(new ContaPoupanca(5321, 3000, ListaClientes.get(3)));
+	}
 }
