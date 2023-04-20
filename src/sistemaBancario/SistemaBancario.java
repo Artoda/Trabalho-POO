@@ -130,7 +130,7 @@ public class SistemaBancario {
 				menuCliente();
 				break;
 			case 2:
-				escritor(
+				escrever(
 						"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\relatorio-"
 								+ agoraFormatado + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + ".txt",
 						"A agencia " + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + " possuí "
@@ -180,7 +180,7 @@ public class SistemaBancario {
 				if (posAgen == -5) {
 					System.out.println("Agência não encontrada!");
 				} else {
-					escritor(
+					escrever(
 							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\relatorio-"
 									+ agoraFormatado + "-" + listaAgencias.get(posAgen).getIdAgencia()
 									+ "(Diretor).txt",
@@ -196,7 +196,7 @@ public class SistemaBancario {
 						for (int k = 0; k < listaAgencias.get(j).getListaContas().size(); k++) {
 							if (listaAgencias.get(j).getListaContas().get(k).getCliente().getNome()
 									.equals(listaClientes.get(i).getNome())) {
-								escritor(
+								escrever(
 										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\relatorioContas-"
 												+ agoraFormatado + ".txt",
 										"Agência: " + listaAgencias.get(j).getIdAgencia() + ". Conta: "
@@ -254,7 +254,7 @@ public class SistemaBancario {
 				if (posAgen == -5) {
 					System.out.println("Agência não encontrada!");
 				} else {
-					escritor(
+					escrever(
 							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\relatorio-"
 									+ agoraFormatado + "-" + listaAgencias.get(posAgen).getIdAgencia()
 									+ "(Diretor).txt",
@@ -270,7 +270,7 @@ public class SistemaBancario {
 						for (int k = 0; k < listaAgencias.get(j).getListaContas().size(); k++) {
 							if (listaAgencias.get(j).getListaContas().get(k).getCliente().getNome()
 									.equals(listaClientes.get(i).getNome())) {
-								escritor(
+								escrever(
 										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\relatorioContas-"
 												+ agoraFormatado + "(Presidente).txt",
 										"Agência: " + listaAgencias.get(j).getIdAgencia() + ". Conta: "
@@ -285,12 +285,14 @@ public class SistemaBancario {
 				break;
 			case 4:
 				for (int i = 0; i < listaAgencias.size(); i++) {
-					for(int j = 0; j < listaAgencias.get(i).getListaContas().size(); j++) {
+					for (int j = 0; j < listaAgencias.get(i).getListaContas().size(); j++) {
 						soma += listaAgencias.get(i).getListaContas().get(j).getSaldo();
 					}
 				}
-				escritor("C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\relatorioCapital" + 
-						agoraFormatado + ".txt", "Capital total: R$" + soma);
+				escrever(
+						"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\relatorioCapital"
+								+ agoraFormatado + ".txt",
+						"Capital total: R$" + soma);
 				System.out.println("Relatório criado com sucesso!");
 				break;
 			case 5:
@@ -301,7 +303,7 @@ public class SistemaBancario {
 		}
 	}
 
-	public static void menuCliente() throws IOException {// *
+	public static void menuCliente() throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -313,7 +315,7 @@ public class SistemaBancario {
 		String agoraFormatado1 = agora1.format(formatter1);
 		System.out.println("-------------------------   Menu do cliente:  -----------------------------\n");
 		int agencia;
-		int conta;
+		int conta = 0;
 		int senha;
 		int posicao1 = -5;
 		int posicao2 = -5;
@@ -386,7 +388,7 @@ public class SistemaBancario {
 					listaAgencias.get(posicao1).getListaContas().get(posicao2).Saque(valor);
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						escritor(
+						escrever(
 								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
 												.getNumero()
@@ -395,7 +397,7 @@ public class SistemaBancario {
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo() * 100.0)
 										/ 100.0 + "(taxa de saque R$0.10)");
 					} else {
-						escritor(
+						escrever(
 								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
 										+ agoraFormatado + ".txt",
@@ -403,6 +405,10 @@ public class SistemaBancario {
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo() * 100.0)
 										/ 100.0);
 					}
+					escrever(
+							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\operacoes"
+									+ "conta" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero(),
+							agoraFormatado + "_" + agoraFormatado1 + ": Saque R$" + valor);
 					break;
 				case 2:
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
@@ -414,7 +420,7 @@ public class SistemaBancario {
 					listaAgencias.get(posicao1).getListaContas().get(posicao2).Deposito(valor);
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						escritor(
+						escrever(
 								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
 												.getNumero()
@@ -423,7 +429,7 @@ public class SistemaBancario {
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo() * 100.0)
 										/ 100.0 + "(taxa de depósito R$0.10)");
 					} else {
-						escritor(
+						escrever(
 								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
 										+ agoraFormatado + ".txt",
@@ -431,6 +437,10 @@ public class SistemaBancario {
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo() * 100.0)
 										/ 100.0);
 					}
+					escrever(
+							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\operacoes"
+									+ "conta" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero(),
+							agoraFormatado + "_" + agoraFormatado1 + ": Depósito R$" + valor);
 					break;
 				case 3:
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
@@ -467,7 +477,7 @@ public class SistemaBancario {
 					}
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						escritor(
+						escrever(
 								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
 												.getNumero()
@@ -480,7 +490,7 @@ public class SistemaBancario {
 														* 100.0)
 												/ 100.0
 										+ "(taxa de transferência R$0.20)");
-						escritor(
+						escrever(
 								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\extrato-"
 										+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + "-"
 										+ agoraFormatado + ".txt",
@@ -492,7 +502,7 @@ public class SistemaBancario {
 														* 100.0)
 												/ 100.0);
 					} else {
-						escritor(
+						escrever(
 								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
 										+ agoraFormatado + ".txt",
@@ -503,7 +513,7 @@ public class SistemaBancario {
 												listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo()
 														* 100.0)
 												/ 100.0);
-						escritor(
+						escrever(
 								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\extrato-"
 										+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + "-"
 										+ agoraFormatado + ".txt",
@@ -515,6 +525,10 @@ public class SistemaBancario {
 														* 100.0)
 												/ 100.0);
 					}
+					escrever(
+							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\operacoes"
+									+ "conta" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero(),
+							agoraFormatado + "_" + agoraFormatado1 + ": Transferência R$" + valor);
 					break;
 				case 4:
 					try {
@@ -541,9 +555,13 @@ public class SistemaBancario {
 
 					break;
 				case 6:
+					sobrescrever(
+							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\conta"
+									+ conta + ".txt",
+							conta + ";" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
 					break;
 				default:
-					System.out.println("Opção inválida");
+					System.out.println("Opção inválida!");
 					break;
 				}
 			}
@@ -551,7 +569,6 @@ public class SistemaBancario {
 		}
 
 	}
-
 
 	public static void LerArquivo() throws IOException {
 		BufferedReader arquivoRomulo = new BufferedReader(new FileReader(
@@ -570,9 +587,19 @@ public class SistemaBancario {
 				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\arquivoMatheus.txt"));
 		BufferedReader arquivoYan = new BufferedReader(new FileReader(
 				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\arquivoYan.txt"));
+		BufferedReader conta1234 = new BufferedReader(new FileReader(
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\conta1234.txt"));
+		BufferedReader conta1235 = new BufferedReader(new FileReader(
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\conta1235.txt"));
+		BufferedReader conta4321 = new BufferedReader(new FileReader(
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\conta4321.txt"));
+		BufferedReader conta5321 = new BufferedReader(new FileReader(
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\Arquivos\\conta5321.txt"));
 		String linha;
 		String nome, cpf;
 		int senha;
+		int numero;
+		double saldo;
 
 		while (true) {
 			linha = arquivoRomulo.readLine();
@@ -670,11 +697,54 @@ public class SistemaBancario {
 			} else
 				break;
 		}
-		
+		while (true) {
+			linha = conta1234.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				numero = Integer.parseInt(arrayStrings[0]);
+				saldo = Double.parseDouble(arrayStrings[1]);
+				listaAgencias.get(0).adicionarConta(new ContaCorrente(numero, saldo, listaClientes.get(0)));
+			} else
+				break;
+		}
+		while (true) {
+			linha = conta1235.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				numero = Integer.parseInt(arrayStrings[0]);
+				saldo = Double.parseDouble(arrayStrings[1]);
+				listaAgencias.get(0).adicionarConta(new ContaCorrente(numero, saldo, listaClientes.get(1)));
+			} else
+				break;
+		}
+		while (true) {
+			linha = conta4321.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				numero = Integer.parseInt(arrayStrings[0]);
+				saldo = Double.parseDouble(arrayStrings[1]);
+				listaAgencias.get(1).adicionarConta(new ContaCorrente(numero, saldo, listaClientes.get(2)));
+			} else
+				break;
+		}
+		while (true) {
+			linha = conta5321.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				numero = Integer.parseInt(arrayStrings[0]);
+				saldo = Double.parseDouble(arrayStrings[1]);
+				listaAgencias.get(1).adicionarConta(new ContaCorrente(numero, saldo, listaClientes.get(3)));
+			} else
+				break;
+		}
 
 	}
 
-	public static void escritor(String path, String texto) throws IOException {
+	public static void escrever(String path, String texto) throws IOException {
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path, true));
 		String linha = "";
 		Scanner in = new Scanner(System.in);
@@ -716,10 +786,14 @@ public class SistemaBancario {
 		listaFuncionarios.add(listaDiretores.get(0));
 		listaFuncionarios.add(listaPresidentes.get(0));
 
-		listaAgencias.get(0).adicionarConta(new ContaCorrente(1234, 2000, listaClientes.get(0)));
-		listaAgencias.get(0).adicionarConta(new ContaPoupanca(1235, 10000, listaClientes.get(1)));
-		listaAgencias.get(1).adicionarConta(new ContaCorrente(4321, 500, listaClientes.get(2)));
-		listaAgencias.get(1).adicionarConta(new ContaPoupanca(5321, 3000, listaClientes.get(3)));
 	}
 
+	public static void sobrescrever(String path, String texto) throws IOException {
+		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
+		String linha = "";
+		Scanner in = new Scanner(System.in);
+		linha = texto;
+		buffWrite.append(linha + "\n");
+		buffWrite.close();
+	}
 }
