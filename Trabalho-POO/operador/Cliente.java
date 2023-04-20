@@ -1,9 +1,5 @@
 package operador;
 
-import java.util.HashMap;
-
-import conta.ContasEnum;
-
 public class Cliente extends Pessoa {
 	
 	CargosEnum tipo = CargosEnum.CLIENTE;

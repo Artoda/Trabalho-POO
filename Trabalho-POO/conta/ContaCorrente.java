@@ -1,7 +1,8 @@
 package conta;
 
-import operador.Cliente;
 import java.util.Scanner;
+
+import operador.Cliente;
 
 public class ContaCorrente extends Conta implements Comparable {
 
