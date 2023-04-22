@@ -1,6 +1,10 @@
 package operador;
 
-public class Cliente extends Pessoa  implements Comparable<Object> {
+import java.util.HashMap;
+
+import conta.ContasEnum;
+
+public class Cliente extends Pessoa  implements Comparable {
 
 	CargosEnum tipo = CargosEnum.CLIENTE;
 

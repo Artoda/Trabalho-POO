@@ -34,8 +34,6 @@ public class SistemaBancario {
 
 	public static void main(String[] args) throws IOException {
 
-//Classe main faz o input de dados nos arquivos,coloca eles em ordem alfabetica, e logo após ele chava o menu principal.
-
 		inputDados();
 		Collections.sort(listaClientes);
 		menu();
@@ -46,17 +44,14 @@ public class SistemaBancario {
 
 		int escolha = 0;
 
-		// O menu principal serve para diferencias os tipos de logins, sendo um
-		// exclusivo para clientes e outro para funcionarios.
-
 		System.out.println("------------------------------------------------------------------");
 		System.out.println("-------------------------   Six Bank  -----------------------------");
 		System.out.println("------------------------------------------------------------------\n");
 		while (escolha != 3) {
 			System.out.println("1 - Login Cliente\n");
-			System.out.println("2 - Login Funcionário\n");
+			System.out.println("2 - Login Funcionario\n");
 			System.out.println("3 - Encerrar sistema\n");
-			System.out.print("Opções: ");
+			System.out.print("Opcao: ");
 
 			escolha = read.nextInt();
 
@@ -66,13 +61,13 @@ public class SistemaBancario {
 				break;
 			case 2:
 				menuFuncionario();
-				System.out.println("Funcionário");
+				System.out.println("Funcionario");
 				break;
 			case 3:
 				System.out.println("Sistema encerrado!");
 				break;
 			default:
-				System.out.println("Opção inválida! \n ");
+				System.out.println("Opcao invalida! \n ");
 				break;
 
 			}
@@ -81,17 +76,11 @@ public class SistemaBancario {
 	}
 
 	public static void menuFuncionario() throws IOException {
-
-		// No menu funcionário ele divide qual tipo de funcionario você é, seja um
-		// gerente, diretor ou presidente.
-		// As variaveis colocadas aqui servem para verificação, o "-5" é uma escolha
-		// aleatoria de uma posição impossivel que serve para preencher os dados e
-		// atribuir eles
-
+		int agencia;
 		String cpf;
 		int senha;
 		int posicao = -5;
-		System.out.println("-------------------------   Menu funcionário:  -----------------------------\n");
+		System.out.println("-------------------------   Menu funcionario:  -----------------------------\n");
 		System.out.println("CPF: ");
 		cpf = read.next();
 
@@ -102,7 +91,7 @@ public class SistemaBancario {
 			}
 		}
 		if (posicao == -5) {
-			System.out.println("CPF inválido!");
+			System.out.println("CPF invalido!");
 		} else {
 			System.out.print("Senha: ");
 			senha = read.nextInt();
@@ -115,7 +104,7 @@ public class SistemaBancario {
 					menuPresidente(cpf, posicao);
 				}
 			} else {
-				System.out.println("Senha inválida!");
+				System.out.println("Senha invalida!");
 			}
 		}
 
@@ -132,24 +121,21 @@ public class SistemaBancario {
 		while (escolha != 3) {
 			System.out.println("-------------------------   Menu gerente:  -----------------------------\n");
 			System.out.println("1 - Acesso a conta de cliente");
-			System.out.println("2 - Relatório Gerente");
+			System.out.println("2 - Relatorio Gerente");
 			System.out.println("3 - Sair");
-			System.out.print("Opção: ");
+			System.out.print("Opcao: ");
 			escolha = read.nextInt();
 			switch (escolha) {
 			case 1:
 				menuCliente();
 				break;
-			// No caso da construção de relatorios, colocamos um caminho especifico aonde
-			// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-			// diferente, seria necessario alterar o caminho de salvamento
 			case 2:
-				escritor(
+				escrever(
 						"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorio-"
 								+ agoraFormatado + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + ".txt",
-						"A agência " + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + " possuí­ "
+						"A agencia " + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + " possui­ "
 								+ listaFuncionarios.get(posicao).getAgencia().getListaContas().size() + " contas.\n");
-				System.out.println("Relatório criado com sucesso!");
+				System.out.println("Relatorio criado com sucesso!");
 				break;
 			case 3:
 				break;
@@ -168,21 +154,21 @@ public class SistemaBancario {
 		int escolha = 0;
 		int agencia;
 		int posAgen = -5;
-		System.out.println("Bem-vindo (a) " + listaFuncionarios.get(posicao).getNome());
+		System.out.println("Bem-vindo " + listaFuncionarios.get(posicao).getNome());
 		while (escolha != 4) {
 			System.out.println("-------------------------   Menu Diretor:  -----------------------------\n");
 			System.out.println("1 - Acesso a conta de cliente");
-			System.out.println("2 - Relatório Gerente");
-			System.out.println("3 - Relat[orio Diretor");
+			System.out.println("2 - Relatorio Gerente");
+			System.out.println("3 - Relatorio Diretor");
 			System.out.println("4 - Sair");
-			System.out.print("Opção:  ");
+			System.out.print("Opcao:  ");
 			escolha = read.nextInt();
 			switch (escolha) {
 			case 1:
 				menuCliente();
 				break;
 			case 2:
-				System.out.print("Agência: ");
+				System.out.print("Agencia: ");
 				agencia = read.nextInt();
 
 				for (int i = 0; i < listaAgencias.size(); i++) {
@@ -192,19 +178,15 @@ public class SistemaBancario {
 					}
 				}
 				if (posAgen == -5) {
-					System.out.println("Agência não encontrada!");
-					
-					// No caso da construção de relatorios, colocamos um caminho especifico aonde
-					// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-					// diferente, seria necessario alterar o caminho de salvamento
+					System.out.println("Agencia nao encontrada!");
 				} else {
-					escritor(
+					escrever(
 							"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorio-"
 									+ agoraFormatado + "-" + listaAgencias.get(posAgen).getIdAgencia()
 									+ "(Diretor).txt",
-							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possuí­ "
+							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possui­ "
 									+ listaAgencias.get(posAgen).getListaContas().size() + " contas.\n");
-					System.out.println("Relatório criado com sucesso!");
+					System.out.println("Relatorio criado com sucesso!");
 				}
 
 				break;
@@ -214,14 +196,10 @@ public class SistemaBancario {
 						for (int k = 0; k < listaAgencias.get(j).getListaContas().size(); k++) {
 							if (listaAgencias.get(j).getListaContas().get(k).getCliente().getNome()
 									.equals(listaClientes.get(i).getNome())) {
-								
-								// No caso da construção de relatorios, colocamos um caminho especifico aonde
-								// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-								// diferente, seria necessario alterar o caminho de salvamento
-								escritor(
+								escrever(
 										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorioContas-"
 												+ agoraFormatado + ".txt",
-										"Agência: " + listaAgencias.get(j).getIdAgencia() + ". Conta: "
+										"Agencia: " + listaAgencias.get(j).getIdAgencia() + ". Conta: "
 												+ listaAgencias.get(j).getListaContas().get(k).getNumero() + ". "
 												+ listaClientes.get(i).toString());
 							}
@@ -229,7 +207,7 @@ public class SistemaBancario {
 					}
 				}
 
-				System.out.println("Relatório criado com sucesso!");
+				System.out.println("Relatorio criado com sucesso!");
 				break;
 			case 4:
 				break;
@@ -249,22 +227,22 @@ public class SistemaBancario {
 		int agencia;
 		int posAgen = -5;
 		double soma = 0;
-		System.out.println("Bem-vindo (a) " + listaFuncionarios.get(posicao).getNome());
+		System.out.println("Bem-vindo " + listaFuncionarios.get(posicao).getNome());
 		while (escolha != 5) {
 			System.out.println("-------------------------   Menu Diretor:  -----------------------------\n");
 			System.out.println("1 - Acesso a conta de cliente");
-			System.out.println("2 - Relatório Gerente");
-			System.out.println("3 - Relatório Diretor");
-			System.out.println("4 - Relatório Presidente");
+			System.out.println("2 - Relatorio Gerente");
+			System.out.println("3 - Relatorio Diretor");
+			System.out.println("4 - Relatorio Presidente");
 			System.out.println("5 - Sair");
-			System.out.print("Opção:  ");
+			System.out.print("Opcao:  ");
 			escolha = read.nextInt();
 			switch (escolha) {
 			case 1:
 				menuCliente();
 				break;
 			case 2:
-				System.out.print("Agência: ");
+				System.out.print("Agencia: ");
 				agencia = read.nextInt();
 
 				for (int i = 0; i < listaAgencias.size(); i++) {
@@ -274,19 +252,15 @@ public class SistemaBancario {
 					}
 				}
 				if (posAgen == -5) {
-					System.out.println("Agência não encontrada!");
+					System.out.println("Agencia nao encontrada!");
 				} else {
-					
-					// No caso da construção de relatorios, colocamos um caminho especifico aonde
-					// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-					// diferente, seria necessario alterar o caminho de salvamento
-					escritor(
+					escrever(
 							"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorio-"
 									+ agoraFormatado + "-" + listaAgencias.get(posAgen).getIdAgencia()
 									+ "(Diretor).txt",
-							"A agência " + listaAgencias.get(posAgen).getIdAgencia() + " possuí­ "
+							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possui­ "
 									+ listaAgencias.get(posAgen).getListaContas().size() + " contas.\n");
-					System.out.println("Relatório criado com sucesso!");
+					System.out.println("Relatorio criado com sucesso!");
 				}
 
 				break;
@@ -296,14 +270,10 @@ public class SistemaBancario {
 						for (int k = 0; k < listaAgencias.get(j).getListaContas().size(); k++) {
 							if (listaAgencias.get(j).getListaContas().get(k).getCliente().getNome()
 									.equals(listaClientes.get(i).getNome())) {
-								
-								// No caso da construção de relatorios, colocamos um caminho especifico aonde
-								// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-								// diferente, seria necessario alterar o caminho de salvamento
-								escritor(
+								escrever(
 										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorioContas-"
 												+ agoraFormatado + "(Presidente).txt",
-										"Agência: " + listaAgencias.get(j).getIdAgencia() + ". Conta: "
+										"Agencia: " + listaAgencias.get(j).getIdAgencia() + ". Conta: "
 												+ listaAgencias.get(j).getListaContas().get(k).getNumero() + ". "
 												+ listaClientes.get(i).toString());
 							}
@@ -311,7 +281,7 @@ public class SistemaBancario {
 					}
 				}
 
-				System.out.println("Relatório criado com sucesso!");
+				System.out.println("Relatorio criado com sucesso!");
 				break;
 			case 4:
 				for (int i = 0; i < listaAgencias.size(); i++) {
@@ -319,15 +289,11 @@ public class SistemaBancario {
 						soma += listaAgencias.get(i).getListaContas().get(j).getSaldo();
 					}
 				}
-				
-				// No caso da construção de relatorios, colocamos um caminho especifico aonde
-				// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-				// diferente, seria necessario alterar o caminho de salvamento
-				escritor(
+				escrever(
 						"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorioCapital"
 								+ agoraFormatado + ".txt",
 						"Capital total: R$" + soma);
-				System.out.println("Relatório criado com sucesso!");
+				System.out.println("Relatorio criado com sucesso!");
 				break;
 			case 5:
 				break;
@@ -337,7 +303,7 @@ public class SistemaBancario {
 		}
 	}
 
-	public static void menuCliente() throws IOException {// *
+	public static void menuCliente() throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -349,18 +315,19 @@ public class SistemaBancario {
 		String agoraFormatado1 = agora1.format(formatter1);
 		System.out.println("-------------------------   Menu do cliente:  -----------------------------\n");
 		int agencia;
-		int conta;
+		int conta = 0;
 		int senha;
 		int posicao1 = -5;
 		int posicao2 = -5;
 		int posicao3 = -5;
 		int posicao4 = -5;
 		double valor = 0;
+		double soma = 0;
 		int escolha = 0;
 		int tempo = 0;
 		double deposito = 0;
 
-		System.out.print("Agência: ");
+		System.out.print("Agencia: ");
 		agencia = read.nextInt();
 		for (int i = 0; i < listaAgencias.size(); i++) {
 			if (listaAgencias.get(i).idAgencia == agencia) {
@@ -369,7 +336,7 @@ public class SistemaBancario {
 			}
 		}
 		if (posicao1 == -5) {
-			System.out.print("Agência não encontrada!\n");
+			System.out.print("Agencia nao encontrada!\n");
 		} else {
 			System.out.print("Conta: ");
 			conta = read.nextInt();
@@ -387,7 +354,7 @@ public class SistemaBancario {
 				}
 			}
 			if (posicao2 == -5) {
-				System.out.println("Conta ou senha inválida!");
+				System.out.println("Conta ou senha invalida!");
 			}
 		}
 
@@ -395,20 +362,20 @@ public class SistemaBancario {
 			System.out.println("Bem-vindo(a) "
 					+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getCliente().getNome());
 			while (escolha != 6) {
-				System.out.println("Operação desejada \n");
+				System.out.println("Operacao desejada \n");
 				System.out.println("0 - Saldo\n");
 				System.out.println("1 - Saque\n");
 				System.out.println("2 - Deposito\n");
-				System.out.println("3 - Tranferência\n");
+				System.out.println("3 - Tranferencia\n");
 				System.out.println("4 - Extrato\n");
-				System.out.println("5 - Simulação poupança\n");
+				System.out.println("5 - Simulacao poupanca\n");
 				System.out.println("6 - Encerrar\n");
-				System.out.print("Opção: ");
+				System.out.print("Opcao: ");
 				escolha = read.nextInt();
 
 				switch (escolha) {
 				case 0:
-					System.out.println("Seu saldo é de: R$"
+					System.out.println("Seu saldo e de: R$"
 							+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
 					break;
 				case 1:
@@ -421,11 +388,7 @@ public class SistemaBancario {
 					listaAgencias.get(posicao1).getListaContas().get(posicao2).Saque(valor);
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						
-						// No caso da construção de relatorios, colocamos um caminho especifico aonde
-						// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-						// diferente, seria necessario alterar o caminho de salvamento
-						escritor(
+						escrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
 												.getNumero()
@@ -434,11 +397,7 @@ public class SistemaBancario {
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo() * 100.0)
 										/ 100.0 + "(taxa de saque R$0.10)");
 					} else {
-						
-						// No caso da construção de relatorios, colocamos um caminho especifico aonde
-						// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-						// diferente, seria necessario alterar o caminho de salvamento
-						escritor(
+						escrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
 										+ agoraFormatado + ".txt",
@@ -446,41 +405,49 @@ public class SistemaBancario {
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo() * 100.0)
 										/ 100.0);
 					}
+					escrever(
+							"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\operacoes"
+									+ "conta" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero(),
+							agoraFormatado + "_" + agoraFormatado1 + ": Saque R$" + valor);
 					break;
 				case 2:
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						System.out.println("O depósito feito em contas corrente tem uma taxa de R$0,10.");
+						System.out.println("O deposito feito em contas corrente tem uma taxa de R$0,10.");
 					}
-					System.out.println("Qual o valor desejado para o depósito: ");
+					System.out.println("Qual o valor desejado para o deposito: ");
 					valor = read.nextDouble();
 					listaAgencias.get(posicao1).getListaContas().get(posicao2).Deposito(valor);
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						escritor(
+						escrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
 												.getNumero()
 										+ "-" + agoraFormatado + ".txt",
-								agoraFormatado1 + ": Depósito: R$" + valor + ". Saldo R$" + Math.round(
+								agoraFormatado1 + ": Deposito: R$" + valor + ". Saldo R$" + Math.round(
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo() * 100.0)
-										/ 100.0 + "(taxa de depósito R$0.10)");
+										/ 100.0 + "(taxa de deposito R$0.10)");
 					} else {
-						escritor(
+						escrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
 										+ agoraFormatado + ".txt",
-								agoraFormatado1 + ": Depósito: R$" + valor + ". Saldo R$" + Math.round(
+								agoraFormatado1 + ": Deposito: R$" + valor + ". Saldo R$" + Math.round(
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo() * 100.0)
 										/ 100.0);
 					}
+					escrever(
+							"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\operacoes"
+									+ "conta" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero(),
+							agoraFormatado + "_" + agoraFormatado1 + ": Deposito R$" + valor);
 					break;
 				case 3:
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						System.out.println("A transferência feita por contas corrente tem uma taxa de R$0,20.");
+						System.out.println("A transferencia feita por contas corrente tem uma taxa de R$0,20.");
 					}
-					System.out.print("Agência: ");
+					System.out.print("Agencia: ");
 					agencia = read.nextInt();
 					for (int i = 0; i < listaAgencias.size(); i++) {
 						if (listaAgencias.get(i).idAgencia == agencia) {
@@ -489,14 +456,14 @@ public class SistemaBancario {
 						}
 					}
 					if (posicao3 == -5) {
-						System.out.print("Agência não encontrada!\n");
+						System.out.print("Agencia nao encontrada!\n");
 					} else {
 						System.out.print("Conta: ");
 						conta = read.nextInt();
 						for (int i = 0; i < listaAgencias.get(posicao3).getListaContas().size(); i++) {
 							if (listaAgencias.get(posicao3).getListaContas().get(i).getNumero() == conta) {
 								posicao4 = i;
-								System.out.println("Valor da transferência: ");
+								System.out.println("Valor da transferencia: ");
 								valor = read.nextDouble();
 								listaAgencias.get(posicao1).getListaContas().get(posicao2)
 										.Transferir(listaAgencias.get(posicao3).getListaContas().get(posicao4), valor);
@@ -505,79 +472,66 @@ public class SistemaBancario {
 							}
 						}
 						if (posicao4 == -5) {
-							System.out.println("Conta ou senha inválida!");
+							System.out.println("Conta ou senha invalida!");
 						}
 					}
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						
-						// No caso da construção de relatorios, colocamos um caminho especifico aonde
-						// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-						// diferente, seria necessario alterar o caminho de salvamento
-						escritor(
+						escrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
 												.getNumero()
 										+ "-" + agoraFormatado + ".txt",
-								agoraFormatado1 + ": Transferência: R$" + valor + " para conta"
+								agoraFormatado1 + ": Transferencia: R$" + valor + " para conta"
 										+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-										+ " agência " + listaAgencias.get(posicao3).getIdAgencia() + ". Saldo R$"
+										+ " agencia " + listaAgencias.get(posicao3).getIdAgencia() + ". Saldo R$"
 										+ Math.round(
 												listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo()
 														* 100.0)
 												/ 100.0
-										+ "(taxa de transferência R$0.20)");
-						
-						// No caso da construção de relatorios, colocamos um caminho especifico aonde
-						// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-						// diferente, seria necessario alterar o caminho de salvamento
-						escritor(
+										+ "(taxa de transferÃªncia R$0.20)");
+						escrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 										+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + "-"
 										+ agoraFormatado + ".txt",
-								agoraFormatado1 + ": Transferência recebida: R$" + valor + " da conta "
+								agoraFormatado1 + ": Transferencia recebida: R$" + valor + " da conta "
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-										+ " agência " + listaAgencias.get(posicao1).getIdAgencia() + ". Saldo R$"
+										+ " agencia " + listaAgencias.get(posicao1).getIdAgencia() + ". Saldo R$"
 										+ Math.round(
 												listaAgencias.get(posicao3).getListaContas().get(posicao4).getSaldo()
 														* 100.0)
 												/ 100.0);
 					} else {
-						// No caso da construção de relatorios, colocamos um caminho especifico aonde
-						// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-						// diferente, seria necessario alterar o caminho de salvamento
-						escritor(
+						escrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
 										+ agoraFormatado + ".txt",
-								agoraFormatado1 + ": Transferência: R$" + valor + " para conta "
+								agoraFormatado1 + ": Transferencia: R$" + valor + " para conta "
 										+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-										+ " agência " + listaAgencias.get(posicao3).getIdAgencia() + ". Saldo R$"
+										+ " agencia " + listaAgencias.get(posicao3).getIdAgencia() + ". Saldo R$"
 										+ Math.round(
 												listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo()
 														* 100.0)
 												/ 100.0);
-						// No caso da construção de relatorios, colocamos um caminho especifico aonde
-						// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-						// diferente, seria necessario alterar o caminho de salvamento
-						escritor(
+						escrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 										+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + "-"
 										+ agoraFormatado + ".txt",
-								agoraFormatado1 + ": Transferência recebida: R$" + valor + " de conta "
+								agoraFormatado1 + ": Transferencia recebida: R$" + valor + " de conta "
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-										+ " agência " + listaAgencias.get(posicao1).getIdAgencia() + ". Saldo R$"
+										+ " agencia " + listaAgencias.get(posicao1).getIdAgencia() + ". Saldo R$"
 										+ Math.round(
 												listaAgencias.get(posicao3).getListaContas().get(posicao4).getSaldo()
 														* 100.0)
 												/ 100.0);
 					}
+					escrever(
+							"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\operacoes"
+									+ "conta" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero(),
+							agoraFormatado + "_" + agoraFormatado1 + ": TransferÃªncia R$" + valor);
 					break;
 				case 4:
 					try {
-						// No caso da construção de relatorios, colocamos um caminho especifico aonde
-						// cada relatorio vai ser salvo, sendo assim, caso precise usar em uma maquina
-						// diferente, seria necessario alterar o caminho de salvamento
 						leitor("C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 								+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
 								+ agoraFormatado + ".txt");
@@ -589,21 +543,25 @@ public class SistemaBancario {
 				case 5:
 					if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 							.equals("CORRENTE")) {
-						System.out.println("Simulação disponível apenas para contas poupança.");
+						System.out.println("Simulacao disponivel apenas para contas poupanca.");
 					} else {
 						System.out.println("Valor simulado: ");
 						deposito = read.nextDouble();
-						System.out.println("Tempo de simulação (meses): ");
+						System.out.println("Tempo de simulaÃ§Ã£o (meses): ");
 						tempo = read.nextInt();
-						System.out.println("O montante final ão é de: R$"
+						System.out.println("O montante final e de: R$"
 								+ Math.round(deposito * Math.pow(1.005, tempo) * 100.0) / 100.0);
 					}
 
 					break;
 				case 6:
+					sobrescrever(
+							"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\conta"
+									+ conta + ".txt",
+							conta + ";" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
 					break;
 				default:
-					System.out.println("Opção inválida");
+					System.out.println("Opcao invalida!");
 					break;
 				}
 			}
@@ -611,37 +569,37 @@ public class SistemaBancario {
 		}
 
 	}
-	// No caso da leitura de arquivos, colocamos um caminho especifico aonde
-				// cada arquivo sera lido, sendo assim, caso precise usar em uma maquina
-				// diferente, seria necessario alterar o caminho de salvamento.
+
 	public static void LerArquivo() throws IOException {
 		BufferedReader arquivoRomulo = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoRomuloCC.txt"));
-
 		BufferedReader arquivoJoao = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoJoaoCP.txt"));
-
 		BufferedReader arquivoRonaldo = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoRonaldoCC.txt"));
-
 		BufferedReader arquivoGabriel = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoGabrielCP.txt"));
-
 		BufferedReader arquivoVictor = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoVictor.txt"));
-
 		BufferedReader arquivoMarcelo = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoMarcelo.txt"));
-
 		BufferedReader arquivoMatheus = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoMatheus.txt"));
-
 		BufferedReader arquivoYan = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoYan.txt"));
-
+		BufferedReader conta1234 = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\conta1234.txt"));
+		BufferedReader conta1235 = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\conta1235.txt"));
+		BufferedReader conta4321 = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\conta4321.txt"));
+		BufferedReader conta5321 = new BufferedReader(new FileReader(
+				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\conta5321.txt"));
 		String linha;
 		String nome, cpf;
 		int senha;
+		int numero;
+		double saldo;
 
 		while (true) {
 			linha = arquivoRomulo.readLine();
@@ -739,10 +697,54 @@ public class SistemaBancario {
 			} else
 				break;
 		}
+		while (true) {
+			linha = conta1234.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				numero = Integer.parseInt(arrayStrings[0]);
+				saldo = Double.parseDouble(arrayStrings[1]);
+				listaAgencias.get(0).adicionarConta(new ContaCorrente(numero, saldo, listaClientes.get(0)));
+			} else
+				break;
+		}
+		while (true) {
+			linha = conta1235.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				numero = Integer.parseInt(arrayStrings[0]);
+				saldo = Double.parseDouble(arrayStrings[1]);
+				listaAgencias.get(0).adicionarConta(new ContaPoupanca(numero, saldo, listaClientes.get(1)));
+			} else
+				break;
+		}
+		while (true) {
+			linha = conta4321.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				numero = Integer.parseInt(arrayStrings[0]);
+				saldo = Double.parseDouble(arrayStrings[1]);
+				listaAgencias.get(1).adicionarConta(new ContaCorrente(numero, saldo, listaClientes.get(2)));
+			} else
+				break;
+		}
+		while (true) {
+			linha = conta5321.readLine();
+			String[] arrayStrings;
+			if (linha != null) {
+				arrayStrings = linha.split(";");
+				numero = Integer.parseInt(arrayStrings[0]);
+				saldo = Double.parseDouble(arrayStrings[1]);
+				listaAgencias.get(1).adicionarConta(new ContaPoupanca(numero, saldo, listaClientes.get(3)));
+			} else
+				break;
+		}
 
 	}
 
-	public static void escritor(String path, String texto) throws IOException {
+	public static void escrever(String path, String texto) throws IOException {
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path, true));
 		String linha = "";
 		Scanner in = new Scanner(System.in);
@@ -784,10 +786,14 @@ public class SistemaBancario {
 		listaFuncionarios.add(listaDiretores.get(0));
 		listaFuncionarios.add(listaPresidentes.get(0));
 
-		listaAgencias.get(0).adicionarConta(new ContaCorrente(1234, 2000, listaClientes.get(0)));
-		listaAgencias.get(0).adicionarConta(new ContaPoupanca(1235, 10000, listaClientes.get(1)));
-		listaAgencias.get(1).adicionarConta(new ContaCorrente(4321, 500, listaClientes.get(2)));
-		listaAgencias.get(1).adicionarConta(new ContaPoupanca(5321, 3000, listaClientes.get(3)));
 	}
 
+	public static void sobrescrever(String path, String texto) throws IOException {
+		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
+		String linha = "";
+		Scanner in = new Scanner(System.in);
+		linha = texto;
+		buffWrite.append(linha + "\n");
+		buffWrite.close();
+	}
 }

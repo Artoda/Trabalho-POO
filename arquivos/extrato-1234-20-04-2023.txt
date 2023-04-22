@@ -1,3 +1,0 @@
-18:54:52: Saque: R$50.0. Saldo R$1949.9(taxa de saque R$0.10)
-18:54:52: Depósito: R$120.0. Saldo R$2069.8(taxa de depósito R$0.10)
-18:54:52: Transferência: R$200.0 para conta5321 agência 4321. Saldo R$1869.6(taxa de transferência R$0.20)

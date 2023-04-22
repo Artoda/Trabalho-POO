@@ -1,5 +1,7 @@
 package operador;
 
+import conta.Agencia;
+
 public class Presidente extends Diretor {
 	CargosEnum tipo = CargosEnum.PRESIDENTE;
 
