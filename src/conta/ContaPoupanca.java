@@ -20,39 +20,31 @@ public class ContaPoupanca extends Conta {
 	}
 
 	public void Saque(double valor) {
-		try {
-			if (valor <= this.getSaldo() && valor > 0) {
-				this.setSaldo(this.getSaldo() - valor);
-			} else {
-				System.out.println("Saldo insuficiente.");
-			}
-		} catch (Exception e) {
-			System.out.println("Valor informado inv�lido.");
+		if (valor <= this.getSaldo() && valor > 0) {
+			this.setSaldo(this.getSaldo() - valor);
+		} else if (valor <= 0.0) {
+			System.out.println("Valor invalido");
+		} else {
+			System.out.println("Saldo insuficiente");
 		}
 	}
 
 	public void Deposito(double valor) {
-		try {
-			if (valor > 0) {
-				this.setSaldo(this.getSaldo() + valor);
-			} else {
-				System.out.println("Valor inv�lido para dep�sito.");
-			}
-		} catch (Exception e) {
-			System.out.println("Valor informado inv�lido.");
+		if (valor > 0) {
+			this.setSaldo(this.getSaldo() + valor);
+		} else {
+			System.out.println("Valor invalido");
 		}
 	}
 
 	public void Transferir(Conta conta, double valor) {
-		try {
-			if (valor <= this.getSaldo() && valor > 0) {
-				conta.setSaldo(conta.getSaldo() + valor);
-				this.setSaldo(this.getSaldo() - valor);
-			} else {
-				System.out.println("Valor inv�lido");
-			}
-		} catch (Exception e) {
-			System.out.println("Dados ou valores inv�lidos.");
+		if (valor <= this.getSaldo() && valor > 0) {
+			conta.setSaldo(conta.getSaldo() + valor);
+			this.setSaldo(this.getSaldo() - valor);
+		} else if (valor <= 0) {
+			System.out.println("Valor invalido");
+		} else {
+			System.out.println("Saldo insuficiente");
 		}
 	}
 
