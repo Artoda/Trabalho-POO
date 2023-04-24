@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -41,7 +40,7 @@ public class SistemaBancario {
 		menu();
 
 	}
-
+//	O menu separa os diferentes tipos de logins (Cliente e Funcionário)
 	public static void menu() throws IOException {
 
 		String escolha = "0";
@@ -75,7 +74,7 @@ public class SistemaBancario {
 		}
 
 	}
-
+//	O menu do cliente tem papel de login, com as opções referentes aos clientes
 	public static void menuCliente() throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -100,8 +99,11 @@ public class SistemaBancario {
 		double deposito = 0;
 
 		try {
+			//O cliente digita a agência
 			System.out.print("Agencia: ");
 			agencia = read.nextInt();
+			
+			//Checagem para ver se a agência existe
 			for (int i = 0; i < listaAgencias.size(); i++) {
 				if (listaAgencias.get(i).idAgencia == agencia) {
 					posicao1 = i;
@@ -112,13 +114,16 @@ public class SistemaBancario {
 			if (posicao1 == -5) {
 				System.out.print("Agencia nao encontrada!\n");
 			} else {
+				//O cliente digita a conta
 				System.out.print("Conta: ");
 				conta = read.nextInt();
+				//Checagem para ver se a conta está vinculada a agência
 				for (int i = 0; i < listaAgencias.get(posicao1).getListaContas().size(); i++) {
 					if (listaAgencias.get(posicao1).getListaContas().get(i).getNumero() == conta) {
+						//O cliente digita a senha
 						System.out.print("Senha: ");
 						senha = read.nextInt();
-
+						//Checagem para ver se a senha do cliente está correta
 						if (listaAgencias.get(posicao1).getListaContas().get(i).getCliente().getSenha() == senha) {
 							posicao2 = i;
 						} else {
@@ -144,14 +149,18 @@ public class SistemaBancario {
 					System.out.println("4 - Extrato\n");
 					System.out.println("5 - Simulacao poupanca\n");
 					System.out.println("6 - Encerrar\n");
+					//Escolha da operação desejada pelo cliente
 					System.out.print("Opcao: ");
 					escolha = read.next();
 
 					switch (escolha) {
+					//A primeira opção só imprime o saldo do cliente no console
 					case "0":
 						System.out.println("Seu saldo e de: R$"
 								+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
 						break;
+					//A segunda opção é o saque, o cliente digita o valor desejado (A própria operação do saque faz a checagem de positividade
+					//e se o saldo da conta do cliente é suficiente para o saque)
 					case "1":
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
@@ -160,10 +169,13 @@ public class SistemaBancario {
 						System.out.println("Qual o valor desejado para o saque: ");
 						valor = read.nextDouble();
 						listaAgencias.get(posicao1).getListaContas().get(posicao2).Saque(valor);
+						
+						//Essa parte escreve um arquivo com todas as operações de saque realizadas naquele dia pelo cliente no extrato do cliente
+						//no extrato do cliente (acessado por ele) e no relatório de operações (acessado pelos funcionários)
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
 							escrever(
-									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
+									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
 											+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
 													.getNumero()
 											+ "-" + agoraFormatado + ".txt",
@@ -173,7 +185,7 @@ public class SistemaBancario {
 											/ 100.0 + "(taxa de saque R$0.10)");
 						} else {
 							escrever(
-									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
+									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
 											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
 											+ "-" + agoraFormatado + ".txt",
 									agoraFormatado1 + ": Saque: R$" + valor + ". Saldo R$" + Math
@@ -182,13 +194,14 @@ public class SistemaBancario {
 											/ 100.0);
 						}
 						escrever(
-								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\operacoes"
+								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\operacoes"
 										+ "conta"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
 										+ ".txt",
 								agoraFormatado + "_" + agoraFormatado1 + ": Saque R$" + valor);
 						break;
 					case "2":
+						//A terceira opção é a de depósito, o próprio método depósito checa a positividade do valor depositado
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
 							System.out.println("O deposito feito em contas corrente tem uma taxa de R$0,10.");
@@ -196,10 +209,13 @@ public class SistemaBancario {
 						System.out.println("Qual o valor desejado para o deposito: ");
 						valor = read.nextDouble();
 						listaAgencias.get(posicao1).getListaContas().get(posicao2).Deposito(valor);
+						
+						//Essa parte escreve um arquivo com todas as operações de depósito realizadas naquele dia pelo cliente no extrato do cliente
+						//no extrato do cliente (acessado por ele) e no relatório de operações (acessado pelos funcionários)
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
 							escrever(
-									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
+									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
 											+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
 													.getNumero()
 											+ "-" + agoraFormatado + ".txt",
@@ -209,7 +225,7 @@ public class SistemaBancario {
 											/ 100.0 + " (taxa de deposito R$0.10)");
 						} else {
 							escrever(
-									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
+									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
 											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
 											+ "-" + agoraFormatado + ".txt",
 									agoraFormatado1 + ": Deposito: R$" + valor + ". Saldo R$" + Math
@@ -218,7 +234,7 @@ public class SistemaBancario {
 											/ 100.0);
 						}
 						escrever(
-								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\operacoes"
+								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\operacoes"
 										+ "conta"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
 										+ ".txt",
@@ -229,8 +245,10 @@ public class SistemaBancario {
 								.equals("CORRENTE")) {
 							System.out.println("A transferencia feita por contas corrente tem uma taxa de R$0,20.");
 						}
+						//O cliente coloca a agencia da conta para a qual a tranferência será realizada
 						System.out.print("Agencia: ");
 						agencia = read.nextInt();
+						//Checagem de existência da agência
 						for (int i = 0; i < listaAgencias.size(); i++) {
 							if (listaAgencias.get(i).idAgencia == agencia) {
 								posicao3 = i;
@@ -240,33 +258,98 @@ public class SistemaBancario {
 						if (posicao3 == -5) {
 							System.out.print("Agencia nao encontrada!\n");
 						} else {
+							//O cliente coloca a conta para a qual ele vai tranferir
 							System.out.print("Conta: ");
 							conta = read.nextInt();
-							if (agencia == listaAgencias.get(posicao1).idAgencia && conta == listaAgencias.get(posicao1)
-									.getListaContas().get(posicao2).getNumero()) {
-								System.out.println("Transferencia valida apenas para outras contas");
-							} else {
-								for (int i = 0; i < listaAgencias.get(posicao3).getListaContas().size(); i++) {
-									if (listaAgencias.get(posicao3).getListaContas().get(i).getNumero() == conta) {
-										posicao4 = i;
+							//Checagem se a conta existe naquela agência
+							for (int i = 0; i < listaAgencias.get(posicao3).getListaContas().size(); i++) {
+								if (listaAgencias.get(posicao3).getListaContas().get(i).getNumero() == conta) {
+									posicao4 = i;
+									if (listaAgencias.get(posicao3).getIdAgencia() == listaAgencias.get(posicao1)
+											.getIdAgencia()
+											&& listaAgencias.get(posicao1).getListaContas().get(posicao2)
+													.getNumero() == listaAgencias.get(posicao3).getListaContas()
+															.get(posicao4).getNumero()) {
+										System.out.println("Tranferencias disponiveis apenas para outras contas");
+									} else {
 										System.out.println("Valor da transferencia: ");
 										valor = read.nextDouble();
 										listaAgencias.get(posicao1).getListaContas().get(posicao2).Transferir(
 												listaAgencias.get(posicao3).getListaContas().get(posicao4), valor);
-
-										break;
 									}
+									break;
 								}
 							}
 							if (posicao4 == -5) {
 								System.out.println("Conta ou senha invalida!");
 							}
 						}
+						//Checagem pra ver se a conta é diferente da conta do próprio cliente
+						if (listaAgencias.get(posicao3).getIdAgencia() == listaAgencias.get(posicao1).getIdAgencia()
+								&& listaAgencias.get(posicao1).getListaContas().get(posicao2)
+										.getNumero() == listaAgencias.get(posicao3).getListaContas().get(posicao4)
+												.getNumero()) {
 
+						} else {
+							//Geração de arquivos para extrato e relatório
+							if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
+									.equals("CORRENTE")) {
+								escrever(
+										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
+												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
+												+ "-" + agoraFormatado + ".txt",
+										agoraFormatado1 + ": Transferencia: R$" + valor + " para conta "
+												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
+												+ " agencia " + listaAgencias.get(posicao3).getIdAgencia()
+												+ ". Saldo R$"
+												+ Math.round(listaAgencias.get(posicao1).getListaContas().get(posicao2)
+														.getSaldo() * 100.0) / 100.0
+												+ "(taxa de transferÃªncia R$0.20)");
+								escrever(
+										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
+												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
+												+ "-" + agoraFormatado + ".txt",
+										agoraFormatado1 + ": Transferencia recebida: R$" + valor + " da conta "
+												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
+												+ " agencia " + listaAgencias.get(posicao1).getIdAgencia()
+												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao3).getListaContas()
+														.get(posicao4).getSaldo() * 100.0) / 100.0);
+							} else {
+								escrever(
+										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
+												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
+												+ "-" + agoraFormatado + ".txt",
+										agoraFormatado1 + ": Transferencia: R$" + valor + " para conta "
+												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
+												+ " agencia " + listaAgencias.get(posicao3).getIdAgencia()
+												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao1).getListaContas()
+														.get(posicao2).getSaldo() * 100.0) / 100.0);
+								escrever(
+										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
+												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
+												+ "-" + agoraFormatado + ".txt",
+										agoraFormatado1 + ": Transferencia recebida: R$" + valor + " de conta "
+												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
+												+ " agencia " + listaAgencias.get(posicao1).getIdAgencia()
+												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao3).getListaContas()
+														.get(posicao4).getSaldo() * 100.0) / 100.0);
+							}
+							escrever(
+									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\operacoes"
+											+ "conta"
+											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + ".txt",
+									agoraFormatado + "_" + agoraFormatado1 + ": Transferencia R$" + valor);
+							sobrescrever(
+									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\conta"
+											+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + ".txt",
+											listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + ";"
+											+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getSaldo());
+						}
 						break;
 					case "4":
+						//Leitura de extrato para o cliente
 						try {
-							leitor("C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
+							ler("C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\extrato-"
 									+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
 									+ agoraFormatado + ".txt");
 						} catch (FileNotFoundException e) {
@@ -275,6 +358,7 @@ public class SistemaBancario {
 						}
 						break;
 					case "5":
+						//A simulação de contas mostra a partir de um determinado depósito incial e um tempo esperado
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
 							System.out.println("Simulacao disponivel apenas para contas poupanca.");
@@ -285,62 +369,16 @@ public class SistemaBancario {
 							tempo = read.nextInt();
 							System.out.println("O montante final e de: R$"
 									+ Math.round(deposito * Math.pow(1.005, tempo) * 100.0) / 100.0);
-							if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
-									.equals("CORRENTE")) {
-								escrever(
-										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
-												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ "-" + agoraFormatado + ".txt",
-										agoraFormatado1 + ": Transferencia: R$" + valor + " para conta"
-												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ " agencia " + listaAgencias.get(posicao3).getIdAgencia()
-												+ ". Saldo R$"
-												+ Math.round(listaAgencias.get(posicao1).getListaContas().get(posicao2)
-														.getSaldo() * 100.0) / 100.0
-												+ "(taxa de transferencia R$0.20)");
-								escrever(
-										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
-												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ "-" + agoraFormatado + ".txt",
-										agoraFormatado1 + ": Transferencia recebida: R$" + valor + " da conta "
-												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ " agencia " + listaAgencias.get(posicao1).getIdAgencia()
-												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao3).getListaContas()
-														.get(posicao4).getSaldo() * 100.0) / 100.0);
-							} else {
-								escrever(
-										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
-												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ "-" + agoraFormatado + ".txt",
-										agoraFormatado1 + ": Transferencia: R$" + valor + " para conta "
-												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ " agencia " + listaAgencias.get(posicao3).getIdAgencia()
-												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao1).getListaContas()
-														.get(posicao2).getSaldo() * 100.0) / 100.0);
-								escrever(
-										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\extrato-"
-												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ "-" + agoraFormatado + ".txt",
-										agoraFormatado1 + ": Transferencia recebida: R$" + valor + " de conta "
-												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ " agencia " + listaAgencias.get(posicao1).getIdAgencia()
-												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao3).getListaContas()
-														.get(posicao4).getSaldo() * 100.0) / 100.0);
-							}
-							escrever(
-									"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\operacoes"
-											+ "conta"
-											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-											+ ".txt",
-									agoraFormatado + "_" + agoraFormatado1 + ": Transferencia R$" + valor);
 						}
 
 						break;
 					case "6":
+						//Na finalização o arquivo de input da conta é substituído por um novo, com o novo saldo
 						sobrescrever(
-								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\conta"
-										+ conta + ".txt",
-								conta + ";" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
+								"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\conta"
+										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + ".txt",
+										listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() 
+										+ ";" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
 						break;
 					default:
 						System.out.println("Dados invalidos!");
@@ -354,7 +392,7 @@ public class SistemaBancario {
 		}
 
 	}
-
+//  O menu de funcionário tem papel de fazer a identificação do tipo de funcionário que realiza o login
 	public static void menuFuncionario() throws IOException {
 		String cpf;
 		int senha;
@@ -387,7 +425,8 @@ public class SistemaBancario {
 		}
 
 	}
-
+//	Identificado como gerente, o funcionário pode realizar acesso a conta do cliente (mediante autorização via senha), e ter um relatório
+//	da sua própria agência
 	public static void menuGerente(String cpf, int posicao) throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -409,7 +448,7 @@ public class SistemaBancario {
 				break;
 			case "2":
 				escrever(
-						"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\relatorio-"
+						"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\relatorio-"
 								+ agoraFormatado + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + ".txt",
 						"A agencia " + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + " possui­ "
 								+ listaFuncionarios.get(posicao).getAgencia().getListaContas().size() + " contas.\n");
@@ -423,7 +462,7 @@ public class SistemaBancario {
 		}
 
 	}
-
+//	O diretor pode realizar todas as operações dp gerente, e realizar um relatório com todos os contas e agências
 	public static void menuDiretor(String cpf, int posicao) throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -459,7 +498,7 @@ public class SistemaBancario {
 					System.out.println("Agencia nao encontrada!");
 				} else {
 					escrever(
-							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\relatorio-"
+							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\relatorio-"
 									+ agoraFormatado + "-" + listaAgencias.get(posAgen).getIdAgencia()
 									+ "(Diretor).txt",
 							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possui­ "
@@ -475,7 +514,7 @@ public class SistemaBancario {
 							if (listaAgencias.get(j).getListaContas().get(k).getCliente().getNome()
 									.equals(listaClientes.get(i).getNome())) {
 								escrever(
-										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\relatorioContas-"
+										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\relatorioContas-"
 												+ agoraFormatado + ".txt",
 										"Agencia: " + listaAgencias.get(j).getIdAgencia() + ". Conta: "
 												+ listaAgencias.get(j).getListaContas().get(k).getNumero() + ". "
@@ -495,7 +534,7 @@ public class SistemaBancario {
 		}
 
 	}
-
+//	O presidente pode realizar todas as operações anteriores e ainda tem o relatório do capital de todo o sistema bancário
 	public static void menuPresidente(String cpf, int posicao) throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -533,7 +572,7 @@ public class SistemaBancario {
 					System.out.println("Agencia nao encontrada!");
 				} else {
 					escrever(
-							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\relatorio-"
+							"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\relatorio-"
 									+ agoraFormatado + "-" + listaAgencias.get(posAgen).getIdAgencia()
 									+ "(Diretor).txt",
 							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possui­ "
@@ -549,7 +588,7 @@ public class SistemaBancario {
 							if (listaAgencias.get(j).getListaContas().get(k).getCliente().getNome()
 									.equals(listaClientes.get(i).getNome())) {
 								escrever(
-										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\relatorioContas-"
+										"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\relatorioContas-"
 												+ agoraFormatado + "(Presidente).txt",
 										"Agencia: " + listaAgencias.get(j).getIdAgencia() + ". Conta: "
 												+ listaAgencias.get(j).getListaContas().get(k).getNumero() + ". "
@@ -568,7 +607,7 @@ public class SistemaBancario {
 					}
 				}
 				escrever(
-						"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\relatorioCapital"
+						"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\relatorioCapital"
 								+ agoraFormatado + ".txt",
 						"Capital total: R$" + soma);
 				System.out.println("Relatorio criado com sucesso!");
@@ -582,37 +621,40 @@ public class SistemaBancario {
 	}
 
 	
+//	A leitura de arquivos e o input de dados faz a parte de criar os cliente, os funcionários e as contas referentes a cada um dos clientes{
 	public static void LerArquivo() throws IOException {
+		//Leitura dos arquivos
 		BufferedReader arquivoRomulo = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\arquivoRomuloCC.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\arquivoRomuloCC.txt"));
 		BufferedReader arquivoJoao = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\arquivoJoaoCP.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\arquivoJoaoCP.txt"));
 		BufferedReader arquivoRonaldo = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\arquivoRonaldoCC.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\arquivoRonaldoCC.txt"));
 		BufferedReader arquivoGabriel = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\arquivoGabrielCP.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\arquivoGabrielCP.txt"));
 		BufferedReader arquivoVictor = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\arquivoVictor.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\arquivoVictor.txt"));
 		BufferedReader arquivoMarcelo = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\arquivoMarcelo.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\arquivoMarcelo.txt"));
 		BufferedReader arquivoMatheus = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\arquivoMatheus.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\arquivoMatheus.txt"));
 		BufferedReader arquivoYan = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\arquivoYan.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\arquivoYan.txt"));
 		BufferedReader conta1234 = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\conta1234.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\conta1234.txt"));
 		BufferedReader conta1235 = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\conta1235.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\conta1235.txt"));
 		BufferedReader conta4321 = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\conta4321.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\conta4321.txt"));
 		BufferedReader conta5321 = new BufferedReader(new FileReader(
-				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO\\arquivos\\conta5321.txt"));
+				"C:\\Users\\joaom\\OneDrive\\Desktop\\Curso Serratec\\Orientação a objeto\\Trabalho-POO2\\Trabalho-POO\\Arquivos\\conta5321.txt"));
 		String linha;
 		String nome, cpf;
 		int senha;
 		int numero;
 		double saldo;
-
+		
+		//Clientes:
 		while (true) {
 			linha = arquivoRomulo.readLine();
 			String[] arrayStrings;
@@ -669,6 +711,8 @@ public class SistemaBancario {
 				break;
 			}
 		}
+		
+		//Funcionários:
 		while (true) {
 			linha = arquivoVictor.readLine();
 			String[] arrayStrings;
@@ -725,6 +769,8 @@ public class SistemaBancario {
 				break;
 			}
 		}
+		
+		//Criação das contas e vinculação com clientes:
 		while (true) {
 			linha = conta1234.readLine();
 			String[] arrayStrings;
@@ -781,7 +827,7 @@ public class SistemaBancario {
 	}
 
 	public static void inputDados() throws IOException {
-
+		//Criação das agências
 		listaAgencias.add(new Agencia(1234));
 		listaAgencias.add(new Agencia(4321));
 
@@ -790,14 +836,16 @@ public class SistemaBancario {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-
+		//Listagem de funcionários (independente dos cargos)
 		listaFuncionarios.add(listaGerentes.get(0));
 		listaFuncionarios.add(listaGerentes.get(1));
 		listaFuncionarios.add(listaDiretores.get(0));
 		listaFuncionarios.add(listaPresidentes.get(0));
 
 	}
-
+//	}
+	
+//	A função escrever cria e escreve em arquivos sem sobrescrever dados que já estão presentes neste aquivo	
 	public static void escrever(String path, String texto) throws IOException {
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path, true));
 		String linha = "";
@@ -805,8 +853,8 @@ public class SistemaBancario {
 		buffWrite.append(linha + "\n");
 		buffWrite.close();
 	}
-
-	public static void leitor(String path) throws IOException {
+//  A função ler tem o papel de ler linha-a-linha e escrever cada uma das linhas no console
+	public static void ler(String path) throws IOException {
 
 		BufferedReader buffRead = new BufferedReader(new FileReader(path));
 		String linha = "";
@@ -822,7 +870,7 @@ public class SistemaBancario {
 		}
 		buffRead.close();
 	}
-
+//	A função sobrescrever tem o mesmo papel da escrever, mas sobrescrevendo o arquivo
 	public static void sobrescrever(String path, String texto) throws IOException {
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
 		String linha = "";
