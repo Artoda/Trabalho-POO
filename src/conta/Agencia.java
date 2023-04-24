@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Agencia {
 	public int idAgencia;
+	//Cada agência pode ter várias contas, por isso é registrado uma lista de contas em cada uma delas
 	List<Conta> listaContas = new ArrayList<Conta>();
 
 	public Agencia() {

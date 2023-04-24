@@ -16,12 +16,12 @@ public class Cliente extends Pessoa  implements Comparable {
 		super(nome, cpf, senha);
 
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Cliente: Nome=" + nome + ", CPF=" + cpf;
 	}
-
+	//Necessário para a organização em ordem alfabética da lista de clientes
 	@Override
 	public int compareTo(Object o) {
 		if (this.getNome().compareTo(((Pessoa) o).getNome()) < 0) {

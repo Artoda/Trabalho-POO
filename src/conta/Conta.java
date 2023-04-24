@@ -5,6 +5,7 @@ import operador.Cliente;
 public abstract class Conta {
 	private int numero;
 	private double saldo;
+	//A relação de cliente para contas é um para muitos, por isso registrasse o cliente dentro da conta e não o inverso
 	private Cliente cliente = new Cliente();
 
 	public Conta(int numero, double saldo, Cliente cliente) {
