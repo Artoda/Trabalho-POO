@@ -72,8 +72,8 @@ public class SistemaBancario {
 				break;
 
 			}
-		}
 
+		}
 	}
 
 	public static void menuCliente() throws IOException {
@@ -239,6 +239,7 @@ public class SistemaBancario {
 						}
 						if (posicao3 == -5) {
 							System.out.print("Agencia nao encontrada!\n");
+							break;
 						} else {
 							System.out.print("Conta: ");
 							conta = read.nextInt();
@@ -315,12 +316,14 @@ public class SistemaBancario {
 							escrever(
 									"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\operacoes"
 											+ "conta"
-											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + ".txt",
+											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
+											+ ".txt",
 									agoraFormatado + "_" + agoraFormatado1 + ": Transferencia R$" + valor);
 							sobrescrever(
 									"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\conta"
-											+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + ".txt",
-											listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + ";"
+											+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
+											+ ".txt",
+									listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero() + ";"
 											+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getSaldo());
 						}
 						break;
@@ -399,9 +402,10 @@ public class SistemaBancario {
 					case "6":
 						sobrescrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\conta"
-										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + ".txt",
-										listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() 
-										+ ";" + listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
+										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
+										+ ".txt",
+								listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + ";"
+										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
 						break;
 					default:
 						System.out.println("Dados invalidos!");
@@ -411,8 +415,8 @@ public class SistemaBancario {
 
 			}
 		} catch (Exception e) {
-			System.out.println("Dados invalidos!");
-		}
+			
+		} 
 
 	}
 
@@ -479,6 +483,7 @@ public class SistemaBancario {
 			case "3":
 				break;
 			default:
+				System.out.println("Opcao Invalida!");
 				break;
 			}
 		}

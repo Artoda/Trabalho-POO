@@ -1,4 +1,0 @@
-Agencia: 4321. Conta: 5321. Cliente: Nome=Gabriel, CPF=123.456.789-06
-Agencia: 1234. Conta: 1235. Cliente: Nome=Joao, CPF=123.456.789-01
-Agencia: 1234. Conta: 1234. Cliente: Nome=Romulo, CPF=123.456.789-00
-Agencia: 4321. Conta: 4321. Cliente: Nome=Ronaldo, CPF=123.456.789-07

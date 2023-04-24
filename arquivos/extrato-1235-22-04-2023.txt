@@ -1,4 +1,0 @@
-00:29:00: Transferencia recebida: R$500.0 da conta 1234 agencia 1234. Saldo R$10500.0
-00:30:11: Saque: R$500.0. Saldo R$9999.9(taxa de saque R$0.10)
-00:30:11: Deposito: R$1000.0. Saldo R$10999.8(taxa de deposito R$0.10)
-00:30:11: Transferencia: R$5000.0 para conta5321 agencia 4321. Saldo R$5999.6(taxa de transferência R$0.20)
