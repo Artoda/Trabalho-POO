@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -42,6 +41,7 @@ public class SistemaBancario {
 
 	}
 
+//	O menu separa os diferentes tipos de logins (Cliente e Funcionário)
 	public static void menu() throws IOException {
 
 		String escolha = "0";
@@ -72,10 +72,11 @@ public class SistemaBancario {
 				break;
 
 			}
-
 		}
+
 	}
 
+//	O menu do cliente tem papel de login, com as opções referentes aos clientes
 	public static void menuCliente() throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -100,8 +101,11 @@ public class SistemaBancario {
 		double deposito = 0;
 
 		try {
+			// O cliente digita a agência
 			System.out.print("Agencia: ");
 			agencia = read.nextInt();
+
+			// Checagem para ver se a agência existe
 			for (int i = 0; i < listaAgencias.size(); i++) {
 				if (listaAgencias.get(i).idAgencia == agencia) {
 					posicao1 = i;
@@ -112,13 +116,16 @@ public class SistemaBancario {
 			if (posicao1 == -5) {
 				System.out.print("Agencia nao encontrada!\n");
 			} else {
+				// O cliente digita a conta
 				System.out.print("Conta: ");
 				conta = read.nextInt();
+				// Checagem para ver se a conta está vinculada a agência
 				for (int i = 0; i < listaAgencias.get(posicao1).getListaContas().size(); i++) {
 					if (listaAgencias.get(posicao1).getListaContas().get(i).getNumero() == conta) {
+						// O cliente digita a senha
 						System.out.print("Senha: ");
 						senha = read.nextInt();
-
+						// Checagem para ver se a senha do cliente está correta
 						if (listaAgencias.get(posicao1).getListaContas().get(i).getCliente().getSenha() == senha) {
 							posicao2 = i;
 						} else {
@@ -144,14 +151,19 @@ public class SistemaBancario {
 					System.out.println("4 - Extrato\n");
 					System.out.println("5 - Simulacao poupanca\n");
 					System.out.println("6 - Encerrar\n");
+					// Escolha da operação desejada pelo cliente
 					System.out.print("Opcao: ");
 					escolha = read.next();
 
 					switch (escolha) {
+					// A primeira opção só imprime o saldo do cliente no console
 					case "0":
 						System.out.println("Seu saldo e de: R$"
 								+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
 						break;
+					// A segunda opção é o saque, o cliente digita o valor desejado (A própria
+					// operação do saque faz a checagem de positividade
+					// e se o saldo da conta do cliente é suficiente para o saque)
 					case "1":
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
@@ -160,22 +172,32 @@ public class SistemaBancario {
 						System.out.println("Qual o valor desejado para o saque: ");
 						valor = read.nextDouble();
 						listaAgencias.get(posicao1).getListaContas().get(posicao2).Saque(valor);
+
+						// Essa parte escreve um arquivo com todas as operações de saque realizadas
+						// naquele dia pelo cliente no extrato do cliente
+						// no extrato do cliente (acessado por ele) e no relatório de operações
+						// (acessado pelos funcionários)
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
 							escrever(
 									"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
-											+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
-													.getNumero()
-											+ "-" + agoraFormatado + ".txt",
+											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
+											+ "-" + agoraFormatado + "-"
+											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getCliente()
+													.getNome()
+											+ ".txt",
 									agoraFormatado1 + ": Saque: R$" + valor + ". Saldo R$" + Math
 											.round(listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo()
 													* 100.0)
-											/ 100.0 + "(taxa de saque R$0.10)");
+											/ 100.0 + " (taxa de saque R$0.10)");
 						} else {
 							escrever(
 									"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-											+ "-" + agoraFormatado + ".txt",
+											+ "-" + agoraFormatado + "-"
+											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getCliente()
+													.getNome()
+											+ ".txt",
 									agoraFormatado1 + ": Saque: R$" + valor + ". Saldo R$" + Math
 											.round(listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo()
 													* 100.0)
@@ -189,6 +211,8 @@ public class SistemaBancario {
 								agoraFormatado + "_" + agoraFormatado1 + ": Saque R$" + valor);
 						break;
 					case "2":
+						// A terceira opção é a de depósito, o próprio método depósito checa a
+						// positividade do valor depositado
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
 							System.out.println("O deposito feito em contas corrente tem uma taxa de R$0,10.");
@@ -196,13 +220,20 @@ public class SistemaBancario {
 						System.out.println("Qual o valor desejado para o deposito: ");
 						valor = read.nextDouble();
 						listaAgencias.get(posicao1).getListaContas().get(posicao2).Deposito(valor);
+
+						// Essa parte escreve um arquivo com todas as operações de depósito realizadas
+						// naquele dia pelo cliente no extrato do cliente
+						// no extrato do cliente (acessado por ele) e no relatório de operações
+						// (acessado pelos funcionários)
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
 							escrever(
 									"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
-											+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
-													.getNumero()
-											+ "-" + agoraFormatado + ".txt",
+											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
+											+ "-" + agoraFormatado + "-"
+											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getCliente()
+													.getNome()
+											+ ".txt",
 									agoraFormatado1 + ": Deposito: R$" + valor + ". Saldo R$" + Math
 											.round(listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo()
 													* 100.0)
@@ -211,7 +242,10 @@ public class SistemaBancario {
 							escrever(
 									"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-											+ "-" + agoraFormatado + ".txt",
+											+ "-" + agoraFormatado + "-"
+											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getCliente()
+													.getNome()
+											+ ".txt",
 									agoraFormatado1 + ": Deposito: R$" + valor + ". Saldo R$" + Math
 											.round(listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo()
 													* 100.0)
@@ -229,8 +263,10 @@ public class SistemaBancario {
 								.equals("CORRENTE")) {
 							System.out.println("A transferencia feita por contas corrente tem uma taxa de R$0,20.");
 						}
+						// O cliente coloca a agencia da conta para a qual a tranferência será realizada
 						System.out.print("Agencia: ");
 						agencia = read.nextInt();
+						// Checagem de existência da agência
 						for (int i = 0; i < listaAgencias.size(); i++) {
 							if (listaAgencias.get(i).idAgencia == agencia) {
 								posicao3 = i;
@@ -265,29 +301,37 @@ public class SistemaBancario {
 								System.out.println("Conta ou senha invalida!");
 							}
 						}
+						// Checagem pra ver se a conta é diferente da conta do próprio cliente
 						if (listaAgencias.get(posicao3).getIdAgencia() == listaAgencias.get(posicao1).getIdAgencia()
 								&& listaAgencias.get(posicao1).getListaContas().get(posicao2)
 										.getNumero() == listaAgencias.get(posicao3).getListaContas().get(posicao4)
 												.getNumero()) {
 
 						} else {
+							// Geração de arquivos para extrato e relatório
 							if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 									.equals("CORRENTE")) {
 								escrever(
 										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ "-" + agoraFormatado + ".txt",
+												+ "-" + agoraFormatado + "-"
+												+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
+														.getCliente().getNome()
+												+ ".txt",
 										agoraFormatado1 + ": Transferencia: R$" + valor + " para conta "
 												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
 												+ " agencia " + listaAgencias.get(posicao3).getIdAgencia()
 												+ ". Saldo R$"
 												+ Math.round(listaAgencias.get(posicao1).getListaContas().get(posicao2)
 														.getSaldo() * 100.0) / 100.0
-												+ "(taxa de transferÃªncia R$0.20)");
+												+ " (taxa de transferÃªncia R$0.20)");
 								escrever(
 										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ "-" + agoraFormatado + ".txt",
+												+ "-" + agoraFormatado + "-"
+												+ listaAgencias.get(posicao3).getListaContas().get(posicao4)
+														.getCliente().getNome()
+												+ ".txt",
 										agoraFormatado1 + ": Transferencia recebida: R$" + valor + " da conta "
 												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
 												+ " agencia " + listaAgencias.get(posicao1).getIdAgencia()
@@ -297,7 +341,10 @@ public class SistemaBancario {
 								escrever(
 										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ "-" + agoraFormatado + ".txt",
+												+ "-" + agoraFormatado + "-"
+												+ listaAgencias.get(posicao1).getListaContas().get(posicao2)
+														.getCliente().getNome()
+												+ ".txt",
 										agoraFormatado1 + ": Transferencia: R$" + valor + " para conta "
 												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
 												+ " agencia " + listaAgencias.get(posicao3).getIdAgencia()
@@ -306,7 +353,10 @@ public class SistemaBancario {
 								escrever(
 										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ "-" + agoraFormatado + ".txt",
+												+ "-" + agoraFormatado + "-"
+												+ listaAgencias.get(posicao3).getListaContas().get(posicao4)
+														.getCliente().getNome()
+												+ ".txt",
 										agoraFormatado1 + ": Transferencia recebida: R$" + valor + " de conta "
 												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
 												+ " agencia " + listaAgencias.get(posicao1).getIdAgencia()
@@ -328,16 +378,21 @@ public class SistemaBancario {
 						}
 						break;
 					case "4":
+						// Leitura de extrato para o cliente
 						try {
-							leitor("C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
+							ler("C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
 									+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero() + "-"
-									+ agoraFormatado + ".txt");
+									+ agoraFormatado + "-"
+									+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getCliente().getNome()
+									+ ".txt");
 						} catch (FileNotFoundException e) {
 							System.out.println(
 									"Saldo: " + listaAgencias.get(posicao1).getListaContas().get(posicao2).getSaldo());
 						}
 						break;
 					case "5":
+						// A simulação de contas mostra a partir de um determinado depósito incial e um
+						// tempo esperado
 						if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
 								.equals("CORRENTE")) {
 							System.out.println("Simulacao disponivel apenas para contas poupanca.");
@@ -348,58 +403,12 @@ public class SistemaBancario {
 							tempo = read.nextInt();
 							System.out.println("O montante final e de: R$"
 									+ Math.round(deposito * Math.pow(1.005, tempo) * 100.0) / 100.0);
-							if (listaAgencias.get(posicao1).getListaContas().get(posicao2).getTipoConta().name()
-									.equals("CORRENTE")) {
-								escrever(
-										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
-												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ "-" + agoraFormatado + ".txt",
-										agoraFormatado1 + ": Transferencia: R$" + valor + " para conta"
-												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ " agencia " + listaAgencias.get(posicao3).getIdAgencia()
-												+ ". Saldo R$"
-												+ Math.round(listaAgencias.get(posicao1).getListaContas().get(posicao2)
-														.getSaldo() * 100.0) / 100.0
-												+ "(taxa de transferencia R$0.20)");
-								escrever(
-										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
-												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ "-" + agoraFormatado + ".txt",
-										agoraFormatado1 + ": Transferencia recebida: R$" + valor + " da conta "
-												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ " agencia " + listaAgencias.get(posicao1).getIdAgencia()
-												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao3).getListaContas()
-														.get(posicao4).getSaldo() * 100.0) / 100.0);
-							} else {
-								escrever(
-										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
-												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ "-" + agoraFormatado + ".txt",
-										agoraFormatado1 + ": Transferencia: R$" + valor + " para conta "
-												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ " agencia " + listaAgencias.get(posicao3).getIdAgencia()
-												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao1).getListaContas()
-														.get(posicao2).getSaldo() * 100.0) / 100.0);
-								escrever(
-										"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\extrato-"
-												+ listaAgencias.get(posicao3).getListaContas().get(posicao4).getNumero()
-												+ "-" + agoraFormatado + ".txt",
-										agoraFormatado1 + ": Transferencia recebida: R$" + valor + " de conta "
-												+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-												+ " agencia " + listaAgencias.get(posicao1).getIdAgencia()
-												+ ". Saldo R$" + Math.round(listaAgencias.get(posicao3).getListaContas()
-														.get(posicao4).getSaldo() * 100.0) / 100.0);
-							}
-							escrever(
-									"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\operacoes"
-											+ "conta"
-											+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
-											+ ".txt",
-									agoraFormatado + "_" + agoraFormatado1 + ": Transferencia R$" + valor);
 						}
 
 						break;
 					case "6":
+						// Na finalização o arquivo de input da conta é substituído por um novo, com o
+						// novo saldo
 						sobrescrever(
 								"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\conta"
 										+ listaAgencias.get(posicao1).getListaContas().get(posicao2).getNumero()
@@ -415,11 +424,12 @@ public class SistemaBancario {
 
 			}
 		} catch (Exception e) {
-			
-		} 
+			System.out.println("Dados invalidos!");
+		}
 
 	}
 
+//  O menu de funcionário tem papel de fazer a identificação do tipo de funcionário que realiza o login
 	public static void menuFuncionario() throws IOException {
 		String cpf;
 		int senha;
@@ -453,6 +463,8 @@ public class SistemaBancario {
 
 	}
 
+//	Identificado como gerente, o funcionário pode realizar acesso a conta do cliente (mediante autorização via senha), e ter um relatório
+//	da sua própria agência
 	public static void menuGerente(String cpf, int posicao) throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -476,20 +488,20 @@ public class SistemaBancario {
 				escrever(
 						"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorio-"
 								+ agoraFormatado + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + ".txt",
-						"A agencia " + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + " possui­ "
+						"A agencia " + listaFuncionarios.get(posicao).getAgencia().getIdAgencia() + " possui "
 								+ listaFuncionarios.get(posicao).getAgencia().getListaContas().size() + " contas.\n");
 				System.out.println("Relatorio criado com sucesso!");
 				break;
 			case "3":
 				break;
 			default:
-				System.out.println("Opcao Invalida!");
 				break;
 			}
 		}
 
 	}
 
+//	O diretor pode realizar todas as operações dp gerente, e realizar um relatório com todos os contas e agências
 	public static void menuDiretor(String cpf, int posicao) throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -528,7 +540,7 @@ public class SistemaBancario {
 							"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorio-"
 									+ agoraFormatado + "-" + listaAgencias.get(posAgen).getIdAgencia()
 									+ "(Diretor).txt",
-							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possui­ "
+							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possui "
 									+ listaAgencias.get(posAgen).getListaContas().size() + " contas.\n");
 					System.out.println("Relatorio criado com sucesso!");
 				}
@@ -562,6 +574,7 @@ public class SistemaBancario {
 
 	}
 
+//	O presidente pode realizar todas as operações anteriores e ainda tem o relatório do capital de todo o sistema bancário
 	public static void menuPresidente(String cpf, int posicao) throws IOException {
 		LocalDateTime agora = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -601,8 +614,8 @@ public class SistemaBancario {
 					escrever(
 							"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorio-"
 									+ agoraFormatado + "-" + listaAgencias.get(posAgen).getIdAgencia()
-									+ "(Diretor).txt",
-							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possui­ "
+									+ "(Presidente).txt",
+							"A agencia " + listaAgencias.get(posAgen).getIdAgencia() + " possui "
 									+ listaAgencias.get(posAgen).getListaContas().size() + " contas.\n");
 					System.out.println("Relatorio criado com sucesso!");
 				}
@@ -634,7 +647,7 @@ public class SistemaBancario {
 					}
 				}
 				escrever(
-						"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorioCapital"
+						"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\relatorioCapital-"
 								+ agoraFormatado + ".txt",
 						"Capital total: R$" + soma);
 				System.out.println("Relatorio criado com sucesso!");
@@ -647,7 +660,9 @@ public class SistemaBancario {
 		}
 	}
 
+//	A leitura de arquivos e o input de dados faz a parte de criar os cliente, os funcionários e as contas referentes a cada um dos clientes{
 	public static void LerArquivo() throws IOException {
+		// Leitura dos arquivos
 		BufferedReader arquivoRomulo = new BufferedReader(new FileReader(
 				"C:\\Users\\romul\\Documents\\Serratec\\Eclipse\\Trabalho POO\\Trabalho-POO\\arquivos\\arquivoRomuloCC.txt"));
 		BufferedReader arquivoJoao = new BufferedReader(new FileReader(
@@ -678,6 +693,7 @@ public class SistemaBancario {
 		int numero;
 		double saldo;
 
+		// Clientes:
 		while (true) {
 			linha = arquivoRomulo.readLine();
 			String[] arrayStrings;
@@ -734,6 +750,8 @@ public class SistemaBancario {
 				break;
 			}
 		}
+
+		// Funcionários:
 		while (true) {
 			linha = arquivoVictor.readLine();
 			String[] arrayStrings;
@@ -790,6 +808,8 @@ public class SistemaBancario {
 				break;
 			}
 		}
+
+		// Criação das contas e vinculação com clientes:
 		while (true) {
 			linha = conta1234.readLine();
 			String[] arrayStrings;
@@ -846,7 +866,7 @@ public class SistemaBancario {
 	}
 
 	public static void inputDados() throws IOException {
-
+		// Criação das agências
 		listaAgencias.add(new Agencia(1234));
 		listaAgencias.add(new Agencia(4321));
 
@@ -855,14 +875,16 @@ public class SistemaBancario {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-
+		// Listagem de funcionários (independente dos cargos)
 		listaFuncionarios.add(listaGerentes.get(0));
 		listaFuncionarios.add(listaGerentes.get(1));
 		listaFuncionarios.add(listaDiretores.get(0));
 		listaFuncionarios.add(listaPresidentes.get(0));
 
 	}
+//	}
 
+//	A função escrever cria e escreve em arquivos sem sobrescrever dados que já estão presentes neste aquivo	
 	public static void escrever(String path, String texto) throws IOException {
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path, true));
 		String linha = "";
@@ -871,7 +893,8 @@ public class SistemaBancario {
 		buffWrite.close();
 	}
 
-	public static void leitor(String path) throws IOException {
+//  A função ler tem o papel de ler linha-a-linha e escrever cada uma das linhas no console
+	public static void ler(String path) throws IOException {
 
 		BufferedReader buffRead = new BufferedReader(new FileReader(path));
 		String linha = "";
@@ -888,6 +911,7 @@ public class SistemaBancario {
 		buffRead.close();
 	}
 
+//	A função sobrescrever tem o mesmo papel da escrever, mas sobrescrevendo o arquivo
 	public static void sobrescrever(String path, String texto) throws IOException {
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(path));
 		String linha = "";
