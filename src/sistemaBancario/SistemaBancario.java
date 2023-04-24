@@ -257,11 +257,10 @@ public class SistemaBancario {
 						}
 						if (posicao3 == -5) {
 							System.out.print("Agencia nao encontrada!\n");
+							break;
 						} else {
-							//O cliente coloca a conta para a qual ele vai tranferir
 							System.out.print("Conta: ");
 							conta = read.nextInt();
-							//Checagem se a conta existe naquela agência
 							for (int i = 0; i < listaAgencias.get(posicao3).getListaContas().size(); i++) {
 								if (listaAgencias.get(posicao3).getListaContas().get(i).getNumero() == conta) {
 									posicao4 = i;
